@@ -45,6 +45,14 @@ services:
       - ./frontend:/app
       - /app/node_modules
 
+  nlp-service:
+    build: ./nlp-service
+    container_name: bridgeup_nlp
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nlp-service:/app
+
 networks:
   default:
     name: bridgeup_network
