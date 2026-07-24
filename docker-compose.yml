@@ -19,5 +19,35 @@ services:
     ports:
       - "6379:6379"
 
+  backend:
+    build: ./backend
+    container_name: bridgeup_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DATABASE_URL=postgresql://bridgeup:bridgeup_dev@postgres:5432/bridgeup_db
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    container_name: bridgeup_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+networks:
+  default:
+    name: bridgeup_network
+
 volumes:
   postgres_data:
