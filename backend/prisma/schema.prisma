@@ -1,45 +1,34 @@
 generator client {
-  provider="prisma-client-js"
+  provider = "prisma-client-js"
 }
-
 
 datasource db {
-  provider="postgresql"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
 
 model User {
-
-  id Int @id @default(autoincrement())
-
-  email String @unique
-
-  password String
-
-  role String
-
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String
   createdAt DateTime @default(now())
-
 }
-
 
 model Skill {
-
-  id Int @id @default(autoincrement())
-
+  id   Int    @id @default(autoincrement())
   name String
-
 }
 
-
 model JobPosting {
+  id          Int       @id @default(autoincrement())
+  sourceUrl   String    @unique @map("source_url")
+  title       String
+  company     String?
+  rawText     String    @map("raw_text")
+  description String?
+  sourceSite  String?   @default("manual_seed") @map("source_site")
+  fetchedAt   DateTime? @default(now()) @map("fetched_at")
 
-  id Int @id @default(autoincrement())
-
-  title String
-
-  company String
-
-  description String
-
+  @@map("job_postings")
 }
