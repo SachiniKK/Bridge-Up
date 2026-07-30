@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SignupSidebar from './components/common/SignupSidebar';
 import YourBasics from './components/steps/YourBasics';
+import AcademicInfo from './components/steps/AcademicInfo';
 
 function App() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -41,7 +42,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-100/50 flex items-center justify-center p-4 md:p-6 font-sans">
-      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-4 bg-slate-50/80 backdrop-blur-md rounded-[36px] p-3 shadow-xl border border-white/60 items-stretch min-h-[700px]">
+      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-4 bg-slate-50/80 backdrop-blur-md rounded-[36px] p-3 shadow-xl border border-white/60 items-slate-stretch min-h-[700px]">
         
         {/* Left Column: Indigo Info Sidebar */}
         <div className="lg:col-span-4 flex">
@@ -115,24 +116,12 @@ function App() {
             )}
 
             {currentStep === 2 && (
-              <div className="text-center p-8 bg-white rounded-2xl shadow-md border border-slate-100 animate-fade-in">
-                <h2 className="text-2xl font-bold mb-4">Academic Info Form</h2>
-                <p className="text-slate-500 mb-6">Coming in Part 3</p>
-                <div className="flex gap-4 justify-center">
-                  <button 
-                    onClick={handlePrevStep}
-                    className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold transition-all"
-                  >
-                    Back
-                  </button>
-                  <button 
-                    onClick={handleNextStep}
-                    className="px-6 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold transition-all"
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
+              <AcademicInfo 
+                formData={formData}
+                onChange={handleUpdateFormData}
+                onBack={handlePrevStep}
+                onNext={handleNextStep}
+              />
             )}
 
             {currentStep === 3 && (
