@@ -3,9 +3,11 @@ import SignupSidebar from './components/common/SignupSidebar';
 import YourBasics from './components/steps/YourBasics';
 import AcademicInfo from './components/steps/AcademicInfo';
 import CareerGoals from './components/steps/CareerGoals';
+import Login from './components/auth/Login';
 import { CheckCircle2, User, Mail, GraduationCap, Compass } from 'lucide-react';
 
 function App() {
+  const [view, setView] = useState('signup'); // 'signup' | 'login' | 'dashboard'
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [registeredUser, setRegisteredUser] = useState(null);
@@ -42,6 +44,7 @@ function App() {
   const handleReset = () => {
     setCurrentStep(1);
     setRegisteredUser(null);
+    setView('signup');
     setFormData({
       firstName: '',
       lastName: '',
@@ -74,7 +77,7 @@ function App() {
       }
 
       setRegisteredUser(data.user);
-      setCurrentStep(4); // Success screen step
+      setView('dashboard');
     } catch (error) {
       alert(error.message || 'An error occurred during registration.');
     } finally {
@@ -88,6 +91,96 @@ function App() {
     { id: 3, label: 'Career goals' }
   ];
 
+  // Render Login view
+  if (view === 'login') {
+    return (
+      <div className="min-h-screen bg-slate-100/50 flex flex-col font-sans">
+        {/* Login Page Header */}
+        <header className="w-full bg-white border-b border-slate-100 py-4 px-6 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+          <div className="flex items-center space-x-1.5 select-none">
+            <span className="text-xl font-extrabold tracking-tight text-[#1e1b4b]">
+              Skill<span className="text-primary">Bridge</span>
+            </span>
+            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 mt-1"></span>
+          </div>
+        </header>
+
+        {/* Login Form Container */}
+        <main className="flex-1 flex items-center justify-center p-4 py-12">
+          <Login 
+            onSignUpClick={() => setView('signup')} 
+            onLoginSuccess={(user) => {
+              setRegisteredUser(user);
+              setView('dashboard');
+            }}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  // Render Dashboard/Success view
+  if (view === 'dashboard' && registeredUser) {
+    return (
+      <div className="min-h-screen bg-slate-100/50 flex items-center justify-center p-4 md:p-6 font-sans">
+        <div className="max-w-2xl w-full bg-white rounded-[36px] p-8 md:p-10 border border-slate-100 shadow-xl animate-fade-in space-y-6 text-center">
+          <div className="flex justify-center">
+            <CheckCircle2 className="w-16 h-16 text-emerald-500 fill-emerald-50 animate-bounce" />
+          </div>
+          
+          <div className="space-y-2">
+            <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
+              Welcome back, {registeredUser.firstName}! 🎉
+            </h1>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Your profile is active and synced. Let's continue building your career roadmap.
+            </p>
+          </div>
+
+          {/* Profile Recap Summary */}
+          <div className="bg-slate-50 rounded-2xl p-5 text-left border border-slate-100 space-y-3.5">
+            <div className="flex items-center space-x-3 text-slate-600">
+              <User className="w-4.5 h-4.5 text-slate-400" />
+              <span className="text-xs font-semibold">{registeredUser.firstName} {registeredUser.lastName} ({registeredUser.age} years old)</span>
+            </div>
+            <div className="flex items-center space-x-3 text-slate-600">
+              <Mail className="w-4.5 h-4.5 text-slate-400" />
+              <span className="text-xs font-semibold">{registeredUser.email}</span>
+            </div>
+            <div className="flex items-center space-x-3 text-slate-600">
+              <GraduationCap className="w-4.5 h-4.5 text-slate-400" />
+              <span className="text-xs font-semibold">{registeredUser.degree} at {registeredUser.university}</span>
+            </div>
+            <div className="flex items-center space-x-3 text-slate-600">
+              <Compass className="w-4.5 h-4.5 text-slate-400" />
+              <div className="flex flex-wrap gap-1.5">
+                {registeredUser.selectedRoles && registeredUser.selectedRoles.length > 0 ? (
+                  registeredUser.selectedRoles.map((role) => (
+                    <span key={role} className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-[10px] font-bold text-slate-600">
+                      {role}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-xs text-slate-400">No roles selected</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button
+              onClick={handleReset}
+              className="w-full py-3.5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold text-sm shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98]"
+            >
+              Go to Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Render Signup flow view
   return (
     <div className="min-h-screen bg-slate-100/50 flex items-center justify-center p-4 md:p-6 font-sans">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-4 bg-slate-50/80 backdrop-blur-md rounded-[36px] p-3 shadow-xl border border-white/60 items-slate-stretch min-h-[700px]">
@@ -108,62 +201,61 @@ function App() {
             </div>
           )}
 
-          {/* Top Navbar Options (Hidden in success step) */}
-          {currentStep <= 3 && (
-            <div className="flex items-center justify-between mb-8">
-              <button className="text-xs font-semibold text-slate-400 hover:text-slate-700 transition-colors select-none">
-                ← Back to home
+          {/* Top Navbar Options */}
+          <div className="flex items-center justify-between mb-8">
+            <button className="text-xs font-semibold text-slate-400 hover:text-slate-700 transition-colors select-none">
+              ← Back to home
+            </button>
+            <div className="flex items-center space-x-1">
+              <span className="text-xs font-medium text-slate-500">Already have an account?</span>
+              <button 
+                onClick={() => setView('login')}
+                className="px-3.5 py-1.5 text-xs font-bold text-primary hover:text-primary-dark transition-all rounded-full hover:bg-primary/5 active:scale-95 cursor-pointer"
+              >
+                Log in →
               </button>
-              <div className="flex items-center space-x-1">
-                <span className="text-xs font-medium text-slate-500">Already have an account?</span>
-                <button className="px-3.5 py-1.5 text-xs font-bold text-primary hover:text-primary-dark transition-all rounded-full hover:bg-primary/5 active:scale-95">
-                  Log in →
-                </button>
-              </div>
             </div>
-          )}
+          </div>
 
-          {/* Stepper Progress Bar (Hidden in success step) */}
-          {currentStep <= 3 && (
-            <div className="w-full grid grid-cols-3 gap-4 mb-10">
-              {steps.map((step) => {
-                const isActive = currentStep === step.id;
-                const isCompleted = currentStep > step.id;
+          {/* Stepper Progress Bar */}
+          <div className="w-full grid grid-cols-3 gap-4 mb-10">
+            {steps.map((step) => {
+              const isActive = currentStep === step.id;
+              const isCompleted = currentStep > step.id;
 
-                return (
-                  <div key={step.id} className="space-y-2 select-none">
-                    {/* Step Underline */}
-                    <div 
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
+              return (
+                <div key={step.id} className="space-y-2 select-none">
+                  {/* Step Underline */}
+                  <div 
+                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                      isActive || isCompleted 
+                        ? 'bg-gradient-to-r from-primary to-indigo-400' 
+                        : 'bg-slate-200'
+                    }`}
+                  />
+                  {/* Step Title Label */}
+                  <div className="flex items-center space-x-2 px-1">
+                    <span 
+                      className={`text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center font-bold ${
                         isActive || isCompleted 
-                          ? 'bg-gradient-to-r from-primary to-indigo-400' 
-                          : 'bg-slate-200'
+                          ? 'bg-primary text-white' 
+                          : 'bg-slate-200 text-slate-400'
                       }`}
-                    />
-                    {/* Step Title Label */}
-                    <div className="flex items-center space-x-2 px-1">
-                      <span 
-                        className={`text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center font-bold ${
-                          isActive || isCompleted 
-                            ? 'bg-primary text-white' 
-                            : 'bg-slate-200 text-slate-400'
-                        }`}
-                      >
-                        {step.id}
-                      </span>
-                      <span 
-                        className={`text-[10px] md:text-xs font-bold tracking-tight ${
-                          isActive || isCompleted ? 'text-slate-800' : 'text-slate-400'
-                        }`}
-                      >
-                        {step.label}
-                      </span>
-                    </div>
+                    >
+                      {step.id}
+                    </span>
+                    <span 
+                      className={`text-[10px] md:text-xs font-bold tracking-tight ${
+                        isActive || isCompleted ? 'text-slate-800' : 'text-slate-400'
+                      }`}
+                    >
+                      {step.label}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
-          )}
+                </div>
+              );
+            })}
+          </div>
 
           {/* Active Step Forms */}
           <div className="flex-1 flex flex-col justify-center">
@@ -191,59 +283,6 @@ function App() {
                 onBack={handlePrevStep}
                 onCreate={handleRegisterSubmit}
               />
-            )}
-
-            {/* Success Step Card */}
-            {currentStep === 4 && registeredUser && (
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-xl animate-fade-in space-y-6 text-center max-w-xl mx-auto">
-                <div className="flex justify-center">
-                  <CheckCircle2 className="w-16 h-16 text-emerald-500 fill-emerald-50 animate-bounce" />
-                </div>
-                
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
-                    Welcome, {registeredUser.firstName}! 🎉
-                  </h1>
-                  <p className="text-slate-500 text-sm leading-relaxed">
-                    Your student profile has been created successfully. We've customized your learning roadmap based on local employer signals.
-                  </p>
-                </div>
-
-                {/* Profile Recap Summary */}
-                <div className="bg-slate-50 rounded-2xl p-5 text-left border border-slate-100 space-y-3.5">
-                  <div className="flex items-center space-x-3 text-slate-600">
-                    <User className="w-4.5 h-4.5 text-slate-400" />
-                    <span className="text-xs font-semibold">{registeredUser.firstName} {registeredUser.lastName} ({registeredUser.age} years old)</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-slate-600">
-                    <Mail className="w-4.5 h-4.5 text-slate-400" />
-                    <span className="text-xs font-semibold">{registeredUser.email}</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-slate-600">
-                    <GraduationCap className="w-4.5 h-4.5 text-slate-400" />
-                    <span className="text-xs font-semibold">{registeredUser.degree} at {registeredUser.university}</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-slate-600">
-                    <Compass className="w-4.5 h-4.5 text-slate-400" />
-                    <div className="flex flex-wrap gap-1.5">
-                      {registeredUser.selectedRoles.map((role) => (
-                        <span key={role} className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-[10px] font-bold text-slate-600">
-                          {role}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    onClick={handleReset}
-                    className="w-full py-3.5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold text-sm shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98]"
-                  >
-                    Start Learning
-                  </button>
-                </div>
-              </div>
             )}
           </div>
 
