@@ -20,4 +20,5 @@ def get_db():
 
 def init_db():
     from app.models.job_posting import JobPosting  # noqa: ensures model is registered
+    from app.models.extracted_skill import ExtractedSkill  # noqa: ensures model is registered
     Base.metadata.create_all(bind=engine)

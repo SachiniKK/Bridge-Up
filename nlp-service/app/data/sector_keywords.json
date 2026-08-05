@@ -1,0 +1,36 @@
+{
+  "Banking & Finance": [
+    "bank", "loan", "finance", "accounts", "audit", "banking", "financial", 
+    "investment", "trading", "portfolio", "credit", "capital", "asset", 
+    "equity", "wealth", "securities", "brokerage", "treasury"
+  ],
+  "IT & Software": [
+    "software", "developer", "engineer", "IT", "cloud", "frontend", "backend", 
+    "devops", "programming", "architecture", "coding", "web", "mobile", 
+    "application", "fullstack", "database", "machine learning", "data science", 
+    "artificial intelligence", "cybersecurity", "sysadmin", "infrastructure"
+  ],
+  "Telecommunications": [
+    "telecom", "network", "mobile operator", "telecommunications", "5G", "LTE", 
+    "wireless", "fiber", "broadband", "routing", "switching", "telco", 
+    "rf engineer", "cellular"
+  ],
+  "Manufacturing": [
+    "factory", "production", "manufacturing", "industrial", "assembly", 
+    "quality control", "logistics", "warehouse", "supply chain", "operations"
+  ],
+  "Healthcare & Medical": [
+    "hospital", "clinic", "medical", "healthcare", "patient", "nurse", "doctor", 
+    "pharmacy", "clinical", "medicine", "pharma", "biotech", "dentist", "health"
+  ],
+  "Education & E-Learning": [
+    "school", "university", "education", "learning", "student", "teacher", 
+    "training", "academic", "curriculum", "course", "professor", "elearning", 
+    "instructor"
+  ],
+  "Retail & E-commerce": [
+    "retail", "shop", "store", "e-commerce", "sales", "customer service", 
+    "checkout", "inventory", "merchant", "selling", "commerce", "pos", 
+    "merchandising"
+  ]
+}
