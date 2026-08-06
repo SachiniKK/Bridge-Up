@@ -1,20 +1,13 @@
-# Use official Node.js LTS image
 FROM node:20-alpine
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy package files first (for better caching)
-COPY package*.json ./
-
-# Install dependencies inside the container
-RUN npm install
-
-# Copy the rest of the backend code
+# Copy all files including pre-installed node_modules
 COPY . .
 
-# Expose the port the app runs on
+# Generate Prisma client
+RUN npx prisma generate
+
 EXPOSE 5000
 
-# Start the server
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "sleep 3 && npx prisma migrate deploy && npm run dev"]

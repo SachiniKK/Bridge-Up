@@ -50,6 +50,10 @@ services:
     container_name: bridgeup_nlp
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://bridgeup:bridgeup_dev@postgres:5432/bridgeup_db
+    depends_on:
+      - postgres
     volumes:
       - ./nlp-service:/app
 
