@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { saveAuthSession } from '../lib/api';
 import SignupSidebar from '../components/common/SignupSidebar';
 import YourBasics from '../components/steps/YourBasics';
 import AcademicInfo from '../components/steps/AcademicInfo';
@@ -12,6 +13,8 @@ export default function Signup() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [registeredUser, setRegisteredUser] = useState(null);
+  const [authToken, setAuthToken] = useState(null);
+  const [studentId, setStudentId] = useState(null);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -49,6 +52,8 @@ export default function Signup() {
       }
 
       setRegisteredUser(data.user);
+      setAuthToken(data.token);
+      setStudentId(data.studentId);
       setCurrentStep(4);
     } catch (error) {
       alert(error.message || 'An error occurred during registration.');
@@ -58,7 +63,7 @@ export default function Signup() {
   };
 
   const handleStartLearning = () => {
-    localStorage.setItem('bridgeup_user', JSON.stringify(registeredUser));
+    saveAuthSession({ user: registeredUser, token: authToken, studentId });
     navigate('/dashboard');
   };
 

@@ -1,13 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Login from '../components/auth/Login';
+import { saveAuthSession } from '../lib/api';
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  const handleLoginSuccess = (user) => {
-    localStorage.setItem('bridgeup_user', JSON.stringify(user));
-    navigate('/dashboard');
+  const handleLoginSuccess = ({ user, token, studentId }) => {
+    saveAuthSession({ user, token, studentId });
+    if (user.role === 'employer') {
+      navigate('/employer/events/create');
+    } else {
+      navigate('/dashboard');
+    }
   };
 
   return (

@@ -10,7 +10,7 @@ datasource db {
 // IMPORTANT — TABLE OWNERSHIP RULES
 // ──────────────────────────────────────────────
 // Tables owned by backend (Prisma):
-//   students, daily_tasks, xp_transactions
+//   students, daily_tasks, xp_transactions, communities, etc.
 //
 // Tables owned by nlp-service (SQLAlchemy):
 //   job_postings, extracted_skills
@@ -34,7 +34,11 @@ model User {
   currentYear   String
   aboutMe       String?
   selectedRoles String[]
+  companyName   String?
   createdAt     DateTime @default(now())
+
+  student Student?
+  events  Event[]
 }
 
 model Skill {
@@ -44,6 +48,7 @@ model Skill {
 
 model Student {
   id             String    @id @default(uuid())
+  userId         Int?      @unique @map("user_id")
   email          String    @unique
   name           String
   currentXP      Int       @default(0) @map("current_xp")
@@ -54,8 +59,15 @@ model Student {
   weeklyHours    Int       @default(5) @map("weekly_hours")
   createdAt      DateTime  @default(now()) @map("created_at")
 
-  dailyTasks     DailyTask[]
-  xpTransactions XPTransaction[]
+  user                  User?                  @relation(fields: [userId], references: [id])
+  dailyTasks            DailyTask[]
+  xpTransactions        XPTransaction[]
+  communityMemberships  CommunityMembership[]
+  discussions           Discussion[]
+  discussionComments    DiscussionComment[]
+  discussionLikes       DiscussionLike[]
+  challengeSubmissions  ChallengeSubmission[]
+  eventRegistrations    EventRegistration[]
 
   @@map("students")
 }
@@ -72,26 +84,164 @@ model DailyTask {
   completedAt DateTime? @map("completed_at")
   createdAt   DateTime  @default(now()) @map("created_at")
 
-  student     Student   @relation(fields: [studentId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
 
   @@unique([studentId, taskDate, title])
   @@map("daily_tasks")
 }
 
 model XPTransaction {
-  id            String   @id @default(uuid())
-  studentId     String   @map("student_id")
-  amount        Int
-  reason        String
-  relatedTaskId String?  @map("related_task_id")
-  createdAt     DateTime @default(now()) @map("created_at")
+  id              String   @id @default(uuid())
+  studentId       String   @map("student_id")
+  amount          Int
+  reason          String
+  relatedTaskId   String?  @map("related_task_id")
+  relatedEntityId String?  @map("related_entity_id")
+  createdAt       DateTime @default(now()) @map("created_at")
 
-  student       Student  @relation(fields: [studentId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
 
   @@map("xp_transactions")
-model JobPosting {
-  id          Int    @id @default(autoincrement())
+}
+
+// ── Communities ──
+
+model Community {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  skillTag    String   @map("skill_tag")
+  memberCount Int      @default(0) @map("member_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  memberships CommunityMembership[]
+  discussions Discussion[]
+
+  @@map("communities")
+}
+
+model CommunityMembership {
+  id          String   @id @default(uuid())
+  communityId String   @map("community_id")
+  studentId   String   @map("student_id")
+  joinedAt    DateTime @default(now()) @map("joined_at")
+
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  student   Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([communityId, studentId])
+  @@map("community_memberships")
+}
+
+model Discussion {
+  id           String   @id @default(uuid())
+  communityId  String   @map("community_id")
+  authorId     String   @map("author_id")
+  title        String
+  body         String
+  likeCount    Int      @default(0) @map("like_count")
+  commentCount Int      @default(0) @map("comment_count")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  community Community           @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  author    Student             @relation(fields: [authorId], references: [id])
+  comments  DiscussionComment[]
+  likes     DiscussionLike[]
+
+  @@map("discussions")
+}
+
+model DiscussionComment {
+  id           String   @id @default(uuid())
+  discussionId String   @map("discussion_id")
+  authorId     String   @map("author_id")
+  body         String
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  discussion Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  author     Student    @relation(fields: [authorId], references: [id])
+
+  @@map("discussion_comments")
+}
+
+model DiscussionLike {
+  id           String   @id @default(uuid())
+  discussionId String   @map("discussion_id")
+  studentId    String   @map("student_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  discussion Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  student    Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([discussionId, studentId])
+  @@map("discussion_likes")
+}
+
+// ── Weekly Challenges ──
+
+model WeeklyChallenge {
+  id          String   @id @default(uuid())
   title       String
-  company     String
   description String
+  skillTag    String   @map("skill_tag")
+  xpReward    Int      @default(50) @map("xp_reward")
+  startDate   DateTime @map("start_date") @db.Date
+  deadline    DateTime @db.Date
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  submissions ChallengeSubmission[]
+
+  @@map("weekly_challenges")
+}
+
+model ChallengeSubmission {
+  id           String   @id @default(uuid())
+  challengeId  String   @map("challenge_id")
+  studentId    String   @map("student_id")
+  responseText String?  @map("response_text")
+  responseLink String?  @map("response_link")
+  status       String   @default("accepted")
+  submittedAt  DateTime @default(now()) @map("submitted_at")
+
+  challenge WeeklyChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  student   Student         @relation(fields: [studentId], references: [id])
+
+  @@unique([challengeId, studentId])
+  @@map("challenge_submissions")
+}
+
+// ── Events ──
+
+model Event {
+  id                String   @id @default(uuid())
+  employerId        Int      @map("employer_id")
+  title             String
+  description       String
+  mode              String
+  location          String?
+  link              String?
+  eventDate         DateTime @map("event_date")
+  capacity          Int?
+  registrationCount Int      @default(0) @map("registration_count")
+  skills            String[]
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  employer      User                @relation(fields: [employerId], references: [id])
+  registrations EventRegistration[]
+
+  @@map("events")
+}
+
+model EventRegistration {
+  id           String   @id @default(uuid())
+  eventId      String   @map("event_id")
+  studentId    String   @map("student_id")
+  registeredAt DateTime @default(now()) @map("registered_at")
+
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, studentId])
+  @@map("event_registrations")
 }

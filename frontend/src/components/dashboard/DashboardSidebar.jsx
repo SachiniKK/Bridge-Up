@@ -1,16 +1,14 @@
 import React from 'react';
-import { 
-  Home, 
-  Map, 
-  Users, 
-  Calendar, 
-  TrendingUp, 
-  Award, 
-  Settings, 
-  Star 
+import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  Home, Map, Users, Calendar, TrendingUp, Award, Settings, Star, Trophy
 } from 'lucide-react';
 
-export default function DashboardSidebar({ user }) {
+export default function DashboardSidebar({ user, currentPath, onNavigate }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const activePath = currentPath || location.pathname;
+  const handleNavigate = onNavigate || ((path) => navigate(path));
   const getInitials = () => {
     if (!user) return 'KP';
     const first = user.firstName ? user.firstName[0] : '';
@@ -29,32 +27,31 @@ export default function DashboardSidebar({ user }) {
     {
       title: 'MAIN',
       items: [
-        { name: 'Dashboard', icon: Home, active: true },
-        { name: 'Learning Path', icon: Map, active: false },
+        { name: 'Dashboard', icon: Home, path: '/dashboard' },
+        { name: 'Learning Path', icon: Map, path: null },
       ],
     },
     {
       title: 'DISCOVER',
       items: [
-        { name: 'Communities', icon: Users, active: false },
-        { name: 'Events & Meetups', icon: Calendar, active: false },
-        { name: 'Employer Demand', icon: TrendingUp, active: false },
+        { name: 'Communities', icon: Users, path: '/communities' },
+        { name: 'Events & Meetups', icon: Calendar, path: '/events' },
+        { name: 'Weekly Challenge', icon: Trophy, path: '/challenges' },
+        { name: 'Employer Demand', icon: TrendingUp, path: null },
       ],
     },
     {
       title: 'PROFILE',
       items: [
-        { name: 'Skill Passport', icon: Award, active: false },
-        { name: 'Settings', icon: Settings, active: false },
+        { name: 'Skill Passport', icon: Award, path: null },
+        { name: 'Settings', icon: Settings, path: null },
       ],
     },
   ];
 
   return (
     <aside className="w-64 bg-white border-r border-slate-100 flex flex-col justify-between p-6 select-none h-full shadow-sm">
-      
       <div className="space-y-8">
-        {/* Brand Logo */}
         <div className="flex items-center space-x-1.5 select-none px-2">
           <span className="text-xl font-extrabold tracking-tight text-[#1e1b4b]">
             Skill<span className="text-primary">Bridge</span>
@@ -62,7 +59,6 @@ export default function DashboardSidebar({ user }) {
           <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 mt-1"></span>
         </div>
 
-        {/* Menu Navigation sections */}
         <nav className="space-y-6">
           {navigation.map((section) => (
             <div key={section.title} className="space-y-2">
@@ -72,16 +68,21 @@ export default function DashboardSidebar({ user }) {
               <ul className="space-y-1">
                 {section.items.map((item) => {
                   const Icon = item.icon;
+                  const isActive = item.path && activePath === item.path;
                   return (
                     <li key={item.name}>
                       <button
+                        onClick={() => item.path && handleNavigate(item.path)}
+                        disabled={!item.path}
                         className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                          item.active
+                          isActive
                             ? 'bg-indigo-50/70 text-primary border border-indigo-100/50'
-                            : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50/50 border border-transparent'
+                            : item.path
+                              ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-50/50 border border-transparent'
+                              : 'text-slate-300 cursor-not-allowed border border-transparent'
                         }`}
                       >
-                        <Icon className={`w-4 h-4 ${item.active ? 'text-primary' : 'text-slate-400'}`} />
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-primary' : item.path ? 'text-slate-400' : 'text-slate-300'}`} />
                         <span>{item.name}</span>
                       </button>
                     </li>
@@ -93,7 +94,6 @@ export default function DashboardSidebar({ user }) {
         </nav>
       </div>
 
-      {/* User profile footer card */}
       <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-100/30 flex items-center space-x-3 shadow-sm select-none">
         <div className="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-sm shadow border border-purple-400/25">
           {getInitials()}
@@ -104,11 +104,10 @@ export default function DashboardSidebar({ user }) {
           </h4>
           <span className="text-[10px] font-bold text-emerald-600 flex items-center space-x-1 mt-0.5">
             <Star className="w-3 h-3 text-emerald-500 fill-emerald-500" />
-            <span>1,240 XP</span>
+            <span id="sidebar-xp">— XP</span>
           </span>
         </div>
       </div>
-
     </aside>
   );
 }

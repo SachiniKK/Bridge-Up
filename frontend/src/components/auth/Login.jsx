@@ -49,7 +49,7 @@ export default function Login({ onSignUpClick, onLoginSuccess }) {
         throw new Error(data.error || 'Authentication failed.');
       }
 
-      onLoginSuccess(data.user);
+      onLoginSuccess({ user: data.user, token: data.token, studentId: data.studentId });
     } catch (err) {
       setServerError(err.message || 'Something went wrong.');
     } finally {

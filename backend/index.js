@@ -5,8 +5,12 @@ require('dotenv').config();
 const prisma = require('./src/lib/prisma');
 const taskRoutes = require('./src/routes/tasks');
 const xpRoutes = require('./src/routes/xp');
+const communityRoutes = require('./src/routes/communities');
+const challengeRoutes = require('./src/routes/challenges');
+const eventRoutes = require('./src/routes/events');
 const internalRoutes = require('./src/routes/internal');
 const { initDailyTaskScheduler } = require('./src/jobs/dailyTaskScheduler');
+const { seedCommunitiesAndChallenges } = require('./src/seed/seedData');
 
 const app = express();
 app.use(cors());
@@ -27,6 +31,9 @@ app.get('/health', (req, res) => {
 // Mount API routes
 app.use('/api/students', taskRoutes);
 app.use('/api/students', xpRoutes);
+app.use('/api/students', communityRoutes);
+app.use('/api/students', challengeRoutes);
+app.use('/api/students', eventRoutes);
 app.use('/api/internal', internalRoutes);
 
 /**
@@ -61,9 +68,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
 
-  // Seed test student on startup
   await seedTestStudent();
-
-  // Initialize the daily task scheduler (00:05 UTC)
+  await seedCommunitiesAndChallenges();
   initDailyTaskScheduler();
 });
