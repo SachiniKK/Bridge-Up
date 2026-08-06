@@ -1,11 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-* {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+  
+  --color-primary: #7c3aed;
+  --color-primary-light: #a78bfa;
+  --color-primary-dark: #6d28d9;
+  
+  --color-accent-teal: #0ea5e9;
+  --color-accent-teal-dark: #0284c7;
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    @apply font-sans text-slate-800 antialiased bg-slate-50 min-h-screen;
+    background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,0) 0, transparent 50%),
+                      radial-gradient(at 50% 0%, hsla(225,39%,30%,0.08) 0, transparent 50%),
+                      radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%),
+                      radial-gradient(at 0% 100%, hsla(339,49%,30%,0.04) 0, transparent 50%),
+                      radial-gradient(at 80% 50%, hsla(256,100%,94%,0.8) 0, transparent 100%),
+                      radial-gradient(at 20% 80%, hsla(220,100%,95%,0.8) 0, transparent 100%);
+    background-attachment: fixed;
+  }
+}
+
+/* Custom transitions and scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Micro-animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
