@@ -7,6 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ──────────────────────────────────────────────
+// IMPORTANT — TABLE OWNERSHIP RULES
+// ──────────────────────────────────────────────
+// Tables owned by backend (Prisma):
+//   students, daily_tasks, xp_transactions
+//
+// Tables owned by nlp-service (SQLAlchemy):
+//   job_postings, extracted_skills
+//   → NEVER add Prisma models for these tables.
+//   → Use prisma.$queryRaw for read access.
+//
+// See docs/DATABASE_SCHEMA.md for full documentation.
+// ──────────────────────────────────────────────
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -20,15 +34,51 @@ model Skill {
   name String
 }
 
-model JobPosting {
-  id          Int       @id @default(autoincrement())
-  sourceUrl   String    @unique @map("source_url")
-  title       String
-  company     String?
-  rawText     String    @map("raw_text")
-  description String?
-  sourceSite  String?   @default("manual_seed") @map("source_site")
-  fetchedAt   DateTime? @default(now()) @map("fetched_at")
+model Student {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String
+  currentXP      Int       @default(0) @map("current_xp")
+  level          Int       @default(1)
+  streakCount    Int       @default(0) @map("streak_count")
+  lastActiveDate DateTime? @map("last_active_date")
+  studyModeUntil DateTime? @map("study_mode_until")
+  weeklyHours    Int       @default(5) @map("weekly_hours")
+  createdAt      DateTime  @default(now()) @map("created_at")
 
-  @@map("job_postings")
+  dailyTasks     DailyTask[]
+  xpTransactions XPTransaction[]
+
+  @@map("students")
+}
+
+model DailyTask {
+  id          String    @id @default(uuid())
+  studentId   String    @map("student_id")
+  title       String
+  description String?
+  skillTag    String?   @map("skill_tag")
+  xpValue     Int       @default(10) @map("xp_value")
+  taskDate    DateTime  @map("task_date") @db.Date
+  status      String    @default("pending")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  student     Student   @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, taskDate, title])
+  @@map("daily_tasks")
+}
+
+model XPTransaction {
+  id            String   @id @default(uuid())
+  studentId     String   @map("student_id")
+  amount        Int
+  reason        String
+  relatedTaskId String?  @map("related_task_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  student       Student  @relation(fields: [studentId], references: [id])
+
+  @@map("xp_transactions")
 }

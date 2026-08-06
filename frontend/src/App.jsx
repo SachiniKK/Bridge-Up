@@ -1,13 +1,26 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import AppShell from './layouts/AppShell';
+import Dashboard from './pages/Dashboard';
+import ComingSoon from './pages/ComingSoon';
+
 function App() {
-
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-blue-600">
-        Bridge-Up Frontend
-      </h1>
-    </div>
-  )
-
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppShell />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/learning-path" element={<ComingSoon />} />
+          <Route path="/communities" element={<ComingSoon />} />
+          <Route path="/events" element={<ComingSoon />} />
+          <Route path="/employer-demand" element={<ComingSoon />} />
+          <Route path="/skill-passport" element={<ComingSoon />} />
+          <Route path="/settings" element={<ComingSoon />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
