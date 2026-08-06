@@ -86,3 +86,48 @@ exports.register = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
+    // Find user by email
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    // Verify password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    // Create JWT token
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'bridgeup_secret_key',
+      { expiresIn: '7d' }
+    );
+
+    // Remove password from returned user object
+    const { password: _, ...userWithoutPassword } = user;
+
+    return res.status(200).json({
+      message: 'Login successful!',
+      user: userWithoutPassword,
+      token,
+    });
+  } catch (error) {
+    console.error('Login Error:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
