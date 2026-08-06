@@ -1,45 +1,36 @@
 generator client {
-  provider="prisma-client-js"
+  provider = "prisma-client-js"
 }
-
 
 datasource db {
-  provider="postgresql"
+  provider = "postgresql"
 }
-
 
 model User {
-
-  id Int @id @default(autoincrement())
-
-  email String @unique
-
-  password String
-
-  role String
-
-  createdAt DateTime @default(now())
-
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  password      String
+  role          String   @default("student")
+  firstName     String
+  lastName      String
+  age           Int
+  city          String
+  university    String
+  degree        String
+  currentYear   String
+  aboutMe       String?
+  selectedRoles String[]
+  createdAt     DateTime @default(now())
 }
-
 
 model Skill {
-
-  id Int @id @default(autoincrement())
-
+  id   Int    @id @default(autoincrement())
   name String
-
 }
 
-
 model JobPosting {
-
-  id Int @id @default(autoincrement())
-
-  title String
-
-  company String
-
+  id          Int    @id @default(autoincrement())
+  title       String
+  company     String
   description String
-
 }
