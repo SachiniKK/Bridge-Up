@@ -4,7 +4,7 @@ import YourBasics from './components/steps/YourBasics';
 import AcademicInfo from './components/steps/AcademicInfo';
 import CareerGoals from './components/steps/CareerGoals';
 import Login from './components/auth/Login';
-import { CheckCircle2, User, Mail, GraduationCap, Compass } from 'lucide-react';
+import Dashboard from './components/dashboard/Dashboard';
 
 function App() {
   const [view, setView] = useState('signup'); // 'signup' | 'login' | 'dashboard'
@@ -119,64 +119,13 @@ function App() {
     );
   }
 
-  // Render Dashboard/Success view
+  // Render Dashboard view
   if (view === 'dashboard' && registeredUser) {
     return (
-      <div className="min-h-screen bg-slate-100/50 flex items-center justify-center p-4 md:p-6 font-sans">
-        <div className="max-w-2xl w-full bg-white rounded-[36px] p-8 md:p-10 border border-slate-100 shadow-xl animate-fade-in space-y-6 text-center">
-          <div className="flex justify-center">
-            <CheckCircle2 className="w-16 h-16 text-emerald-500 fill-emerald-50 animate-bounce" />
-          </div>
-          
-          <div className="space-y-2">
-            <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
-              Welcome back, {registeredUser.firstName}! 🎉
-            </h1>
-            <p className="text-slate-500 text-sm leading-relaxed">
-              Your profile is active and synced. Let's continue building your career roadmap.
-            </p>
-          </div>
-
-          {/* Profile Recap Summary */}
-          <div className="bg-slate-50 rounded-2xl p-5 text-left border border-slate-100 space-y-3.5">
-            <div className="flex items-center space-x-3 text-slate-600">
-              <User className="w-4.5 h-4.5 text-slate-400" />
-              <span className="text-xs font-semibold">{registeredUser.firstName} {registeredUser.lastName} ({registeredUser.age} years old)</span>
-            </div>
-            <div className="flex items-center space-x-3 text-slate-600">
-              <Mail className="w-4.5 h-4.5 text-slate-400" />
-              <span className="text-xs font-semibold">{registeredUser.email}</span>
-            </div>
-            <div className="flex items-center space-x-3 text-slate-600">
-              <GraduationCap className="w-4.5 h-4.5 text-slate-400" />
-              <span className="text-xs font-semibold">{registeredUser.degree} at {registeredUser.university}</span>
-            </div>
-            <div className="flex items-center space-x-3 text-slate-600">
-              <Compass className="w-4.5 h-4.5 text-slate-400" />
-              <div className="flex flex-wrap gap-1.5">
-                {registeredUser.selectedRoles && registeredUser.selectedRoles.length > 0 ? (
-                  registeredUser.selectedRoles.map((role) => (
-                    <span key={role} className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-[10px] font-bold text-slate-600">
-                      {role}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-xs text-slate-400">No roles selected</span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={handleReset}
-              className="w-full py-3.5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold text-sm shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98]"
-            >
-              Go to Dashboard
-            </button>
-          </div>
-        </div>
-      </div>
+      <Dashboard 
+        user={registeredUser} 
+        onLogout={handleReset} 
+      />
     );
   }
 
