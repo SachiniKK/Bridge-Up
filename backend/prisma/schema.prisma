@@ -21,24 +21,25 @@ datasource db {
 // ──────────────────────────────────────────────
 
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  password      String
-  role          String   @default("student")
-  firstName     String
-  lastName      String
-  age           Int
-  city          String
-  university    String
-  degree        String
-  currentYear   String
-  aboutMe       String?
-  selectedRoles String[]
-  companyName   String?
-  createdAt     DateTime @default(now())
+  id                   Int                   @id @default(autoincrement())
+  email                String                @unique
+  password             String
+  role                 String                @default("student")
+  firstName            String
+  lastName             String
+  age                  Int
+  city                 String
+  university           String
+  degree               String
+  currentYear          String
+  aboutMe              String?
+  selectedRoles        String[]
+  companyName          String?
+  createdAt            DateTime              @default(now())
 
-  student Student?
-  events  Event[]
+  student              Student?
+  events               Event[]
+  employerSkillSignals EmployerSkillSignal[]
 }
 
 model Skill {
@@ -68,6 +69,12 @@ model Student {
   discussionLikes       DiscussionLike[]
   challengeSubmissions  ChallengeSubmission[]
   eventRegistrations    EventRegistration[]
+  roadmap               LearningRoadmap?
+  quizAttempts          QuizAttempt[]
+  verifications         SkillVerification[]
+  peerReviews           PeerReview[]
+  passport              SkillPassport?
+  notifications         Notification[]
 
   @@map("students")
 }
@@ -244,4 +251,177 @@ model EventRegistration {
 
   @@unique([eventId, studentId])
   @@map("event_registrations")
+}
+
+// ── Personalized Roadmap & Resources ──
+
+model LearningRoadmap {
+  id             String        @id @default(uuid())
+  studentId      String        @map("student_id") @unique
+  targetRole     String        @map("target_role")
+  totalWeeks     Int           @default(12) @map("total_weeks")
+  potentialXP    Int           @default(1000) @map("potential_xp")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  student        Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  steps          RoadmapStep[]
+
+  @@map("learning_roadmaps")
+}
+
+model RoadmapStep {
+  id             String             @id @default(uuid())
+  roadmapId      String             @map("roadmap_id")
+  skillName      String             @map("skill_name")
+  demandPercent  Int                @map("demand_percent")
+  durationWeeks  Int                @map("duration_weeks")
+  status         String             @default("locked")
+  order          Int
+  description    String?
+  weeksDetails   Json?
+  createdAt      DateTime           @default(now()) @map("created_at")
+
+  roadmap        LearningRoadmap    @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  resources      RoadmapResource[]
+
+  @@map("roadmap_steps")
+}
+
+model RoadmapResource {
+  id             String          @id @default(uuid())
+  stepId         String          @map("step_id")
+  title          String
+  type           String
+  url            String
+  durationMins   Int             @default(30) @map("duration_mins")
+  xpReward       Int             @default(50) @map("xp_reward")
+  completed      Boolean         @default(false)
+  justification  String?
+  completedAt    DateTime?       @map("completed_at")
+
+  step           RoadmapStep     @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  quizzes        Quiz[]
+
+  @@map("roadmap_resources")
+}
+
+// ── Quizzes ──
+
+model Quiz {
+  id             String          @id @default(uuid())
+  resourceId     String          @map("resource_id")
+  title          String
+  questions      Json
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  resource       RoadmapResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  attempts       QuizAttempt[]
+
+  @@map("quizzes")
+}
+
+model QuizAttempt {
+  id             String          @id @default(uuid())
+  studentId      String          @map("student_id")
+  quizId         String          @map("quiz_id")
+  score          Int
+  passed         Boolean
+  submittedAt    DateTime        @default(now()) @map("submitted_at")
+
+  quiz           Quiz            @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  student        Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("quiz_attempts")
+}
+
+// ── Peer Review & Claims ──
+
+model SkillVerification {
+  id             String          @id @default(uuid())
+  studentId      String          @map("student_id")
+  skillName      String          @map("skill_name")
+  responseText   String?         @map("response_text")
+  responseLink   String?         @map("response_link")
+  status         String          @default("pending")
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  student        Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  reviews        PeerReview[]
+
+  @@unique([studentId, skillName])
+  @@map("skill_verifications")
+}
+
+model PeerReview {
+  id             String            @id @default(uuid())
+  verificationId String            @map("verification_id")
+  reviewerId     String            @map("reviewer_id")
+  approved       Boolean
+  comment        String?
+  createdAt      DateTime          @default(now()) @map("created_at")
+
+  verification   SkillVerification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+  reviewer       Student           @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@unique([verificationId, reviewerId])
+  @@map("peer_reviews")
+}
+
+// ── Employer Skill Signals ──
+
+model EmployerSkillSignal {
+  id             String                     @id @default(uuid())
+  employerId     Int                        @map("employer_id")
+  jobRole        String                     @map("job_role")
+  industry       String
+  createdAt      DateTime                   @default(now()) @map("created_at")
+  updatedAt      DateTime                   @updatedAt @map("updated_at")
+
+  employer       User                       @relation(fields: [employerId], references: [id])
+  skills         EmployerSkillRequirement[]
+
+  @@map("employer_skill_signals")
+}
+
+model EmployerSkillRequirement {
+  id             String                     @id @default(uuid())
+  signalId       String                     @map("signal_id")
+  skillName      String                     @map("skill_name")
+  proficiency    String
+
+  signal         EmployerSkillSignal        @relation(fields: [signalId], references: [id], onDelete: Cascade)
+
+  @@unique([signalId, skillName])
+  @@map("employer_skill_requirements")
+}
+
+// ── Skill Passport & Sharing ──
+
+model SkillPassport {
+  id             String          @id @default(uuid())
+  studentId      String          @map("student_id") @unique
+  isPublic       Boolean         @default(false) @map("is_public")
+  shareToken     String          @unique @map("share_token")
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  student        Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("skill_passports")
+}
+
+// ── Notifications ──
+
+model Notification {
+  id             String          @id @default(uuid())
+  studentId      String          @map("student_id")
+  title          String
+  body           String
+  type           String
+  isRead         Boolean         @default(false) @map("is_read")
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  student        Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
 import CalendarWidget from './CalendarWidget';
 import { 
@@ -44,6 +45,26 @@ export default function Dashboard({ user, onLogout }) {
     }
   ];
 
+  const [roadmap, setRoadmap] = React.useState(null);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const studentId = localStorage.getItem('bridgeup_student_id');
+    const token = localStorage.getItem('bridgeup_token');
+    if (studentId && token) {
+      fetch(`http://localhost:5000/api/students/${studentId}/roadmap`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.steps) {
+          setRoadmap(data);
+        }
+      })
+      .catch(() => {});
+    }
+  }, []);
+
   return (
     <div className="flex h-screen bg-[#f1f5f9]/50 overflow-hidden font-sans select-none">
       {/* Left Sidebar Menu */}
@@ -74,7 +95,10 @@ export default function Dashboard({ user, onLogout }) {
             </div>
 
             {/* Notification Bell */}
-            <button className="p-2.5 rounded-full border border-slate-100 bg-white hover:bg-slate-50 text-slate-400 hover:text-slate-600 relative transition-all shadow-sm active:scale-95">
+            <button 
+              onClick={() => navigate('/notifications')}
+              className="p-2.5 rounded-full border border-slate-100 bg-white hover:bg-slate-50 text-slate-400 hover:text-slate-600 relative transition-all shadow-sm active:scale-95"
+            >
               <Bell className="w-4 h-4" />
               <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white"></span>
             </button>
@@ -132,22 +156,30 @@ export default function Dashboard({ user, onLogout }) {
 
               {/* Peer Requests Widget */}
               <div className="bg-white rounded-3xl p-6 border border-rose-300 shadow-md space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-xl bg-rose-500 text-white">
-                    <Inbox className="w-5 h-5" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 rounded-xl bg-rose-500 text-white">
+                      <Inbox className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-rose-400 block">
+                        Peer Requests
+                      </span>
+                      <h3 className="font-extrabold text-slate-700 text-sm">
+                        Feedback Request
+                      </h3>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-rose-400 block">
-                      Peer Requests
-                    </span>
-                    <h3 className="font-extrabold text-slate-700 text-sm">
-                      Feedback Request
-                    </h3>
-                  </div>
+                  <button 
+                    onClick={() => navigate('/verifications')}
+                    className="text-xs font-bold text-primary hover:underline"
+                  >
+                    View Queue →
+                  </button>
                 </div>
                 <div className="p-4 bg-rose-50/20 rounded-2xl border border-rose-100/50 text-center py-6 select-none">
-                  <p className="text-xs font-semibold text-rose-400">
-                    No review requests yet.
+                  <p className="text-xs font-semibold text-rose-450">
+                    Review and verify your peer claimed skills.
                   </p>
                 </div>
               </div>
@@ -168,15 +200,44 @@ export default function Dashboard({ user, onLogout }) {
                       </h3>
                     </div>
                   </div>
-                  <button className="text-xs font-bold text-[#4f46e5] hover:text-indigo-700 transition-colors">
+                  <button 
+                    onClick={() => navigate('/learning-path')}
+                    className="text-xs font-bold text-[#4f46e5] hover:text-indigo-700 transition-colors"
+                  >
                     Manage →
                   </button>
                 </div>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center py-6 select-none">
-                  <p className="text-xs font-semibold text-slate-400">
-                    You have not started any course yet.
-                  </p>
-                </div>
+                
+                {roadmap ? (
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-extrabold text-slate-800">
+                        {roadmap.targetRole} Roadmap
+                      </h4>
+                      <p className="text-[10px] text-slate-500 font-semibold mt-0.5">
+                        Active Skill: {roadmap.steps.find(s => s.status === 'active')?.skillName || 'All completed!'}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => navigate('/learning-path')}
+                      className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:bg-primary-dark transition-all"
+                    >
+                      Resume Path
+                    </button>
+                  </div>
+                ) : (
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center py-6 select-none flex flex-col items-center gap-2">
+                    <p className="text-xs font-semibold text-slate-400">
+                      You have not generated your learning roadmap yet.
+                    </p>
+                    <button
+                      onClick={() => navigate('/roadmap-builder')}
+                      className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:bg-primary-dark transition-all"
+                    >
+                      Create Roadmap
+                    </button>
+                  </div>
+                )}
               </div>
 
             </div>

@@ -28,7 +28,7 @@ export default function DashboardSidebar({ user, currentPath, onNavigate }) {
       title: 'MAIN',
       items: [
         { name: 'Dashboard', icon: Home, path: '/dashboard' },
-        { name: 'Learning Path', icon: Map, path: null },
+        { name: 'Learning Path', icon: Map, path: '/learning-path' },
       ],
     },
     {
@@ -37,14 +37,15 @@ export default function DashboardSidebar({ user, currentPath, onNavigate }) {
         { name: 'Communities', icon: Users, path: '/communities' },
         { name: 'Events & Meetups', icon: Calendar, path: '/events' },
         { name: 'Weekly Challenge', icon: Trophy, path: '/challenges' },
-        { name: 'Employer Demand', icon: TrendingUp, path: null },
+        { name: 'Employer Demand', icon: TrendingUp, path: '/employer-demand' },
       ],
     },
     {
       title: 'PROFILE',
       items: [
-        { name: 'Skill Passport', icon: Award, path: null },
-        { name: 'Settings', icon: Settings, path: null },
+        { name: 'Skill Passport', icon: Award, path: '/passport' },
+        { name: 'Peer Reviews', icon: Star, path: '/verifications' },
+        { name: 'Settings', icon: Settings, path: '/profile/edit' },
       ],
     },
   ];

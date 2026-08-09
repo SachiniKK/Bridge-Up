@@ -9,7 +9,9 @@ export default function LoginPage() {
   const handleLoginSuccess = ({ user, token, studentId }) => {
     saveAuthSession({ user, token, studentId });
     if (user.role === 'employer') {
-      navigate('/employer/events/create');
+      navigate('/employer');
+    } else if (user.role === 'admin') {
+      navigate('/admin');
     } else {
       navigate('/dashboard');
     }

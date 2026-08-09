@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import DashboardSidebar from './DashboardSidebar';
+import DashboardSidebar from '../dashboard/DashboardSidebar';
 
 export default function AppLayout({ user, onLogout, children }) {
   const navigate = useNavigate();

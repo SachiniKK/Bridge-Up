@@ -64,7 +64,7 @@ export default function Signup() {
 
   const handleStartLearning = () => {
     saveAuthSession({ user: registeredUser, token: authToken, studentId });
-    navigate('/dashboard');
+    navigate('/roadmap-builder');
   };
 
   const steps = [

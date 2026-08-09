@@ -70,6 +70,72 @@ export const api = {
     request(`/students/${studentId}/events/${eventId}/register`, { method: 'DELETE' }),
   createEvent: (data) =>
     request('/students/events', { method: 'POST', body: JSON.stringify(data) }),
+
+  // Admin & Authentication Additions
+  adminLogin: (email, password) =>
+    request('/auth/admin/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  updateProfile: (studentId, data) =>
+    request(`/auth/students/${studentId}/profile`, { method: 'PUT', body: JSON.stringify(data) }),
+  updateOnboarding: (studentId, data) =>
+    request(`/auth/students/${studentId}/onboarding`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  // Employer Skill Signals
+  createEmployerSignal: (data) =>
+    request('/employer/signals', { method: 'POST', body: JSON.stringify(data) }),
+  listEmployerSignals: () => request('/employer/signals'),
+  deleteEmployerSignal: (id) => request(`/employer/signals/${id}`, { method: 'DELETE' }),
+
+  // Personalized Roadmap
+  getRoadmap: (studentId) => request(`/students/${studentId}/roadmap`),
+  regenerateRoadmap: (studentId, data) =>
+    request(`/students/${studentId}/roadmap/regenerate`, { method: 'POST', body: JSON.stringify(data) }),
+  completeResource: (studentId, resourceId) =>
+    request(`/students/${studentId}/roadmap/resources/${resourceId}/complete`, { method: 'POST' }),
+  getSkillSignals: (studentId, skillName) =>
+    request(`/students/${studentId}/roadmap/skills/${encodeURIComponent(skillName)}/signals`),
+
+  // Career & Trends
+  predictCareer: (studentId) => request(`/students/${studentId}/career/predict`),
+  getSkillTrends: (studentId) => request(`/students/${studentId}/trends`),
+
+  // Quiz System
+  getQuiz: (studentId, resourceId) =>
+    request(`/students/${studentId}/roadmap/resources/${resourceId}/quiz`),
+  submitQuiz: (studentId, quizId, answers) =>
+    request(`/students/${studentId}/quizzes/${quizId}/submit`, {
+      method: 'POST',
+      body: JSON.stringify({ answers }),
+    }),
+  getQuizHistory: (studentId) => request(`/students/${studentId}/quizzes/attempts`),
+
+  // Peer Review
+  submitVerification: (studentId, data) =>
+    request(`/students/${studentId}/verifications`, { method: 'POST', body: JSON.stringify(data) }),
+  getPendingVerifications: (studentId) =>
+    request(`/students/${studentId}/verifications/pending`),
+  reviewVerification: (studentId, id, approved, comment) =>
+    request(`/students/${studentId}/verifications/${id}/review`, {
+      method: 'POST',
+      body: JSON.stringify({ approved, comment }),
+    }),
+  getStudentVerifications: (studentId) =>
+    request(`/students/${studentId}/verifications/my`),
+
+  // Skill Passport
+  getPassport: (studentId) => request(`/students/${studentId}/passport`),
+  updatePassportSharing: (studentId, isPublic) =>
+    request(`/students/${studentId}/passport/sharing`, {
+      method: 'PUT',
+      body: JSON.stringify({ isPublic }),
+    }),
+  getSharedPassport: (token) => request(`/students/passport/share/${token}`),
+
+  // Notifications
+  getNotifications: (studentId) => request(`/students/${studentId}/notifications`),
+  markNotificationRead: (studentId, id) =>
+    request(`/students/${studentId}/notifications/${id}/read`, { method: 'POST' }),
+  triggerNotificationReminder: (studentId) =>
+    request(`/students/${studentId}/notifications/trigger-reminder`, { method: 'POST' }),
 };
 
 export function saveAuthSession({ user, token, studentId }) {

@@ -24,5 +24,10 @@ export function useAuth() {
     navigate('/signup', { replace: true });
   };
 
-  return { user, handleLogout };
+  const updateAuthUser = (updatedUser) => {
+    localStorage.setItem('bridgeup_user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };
+
+  return { user, handleLogout, updateAuthUser };
 }

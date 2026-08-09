@@ -29,11 +29,26 @@ app.get('/health', (req, res) => {
 });
 
 // Mount API routes
+const employerRoutes = require('./src/routes/employer');
+app.use('/api/employer', employerRoutes);
+
 app.use('/api/students', taskRoutes);
 app.use('/api/students', xpRoutes);
 app.use('/api/students', communityRoutes);
 app.use('/api/students', challengeRoutes);
 app.use('/api/students', eventRoutes);
+const roadmapRoutes = require('./src/routes/roadmap');
+app.use('/api/students', roadmapRoutes);
+const careerRoutes = require('./src/routes/career');
+app.use('/api/students', careerRoutes);
+const quizRoutes = require('./src/routes/quizzes');
+app.use('/api/students', quizRoutes);
+const verificationRoutes = require('./src/routes/verifications');
+app.use('/api/students', verificationRoutes);
+const passportRoutes = require('./src/routes/passport');
+app.use('/api/students', passportRoutes);
+const notificationRoutes = require('./src/routes/notifications');
+app.use('/api/students', notificationRoutes);
 app.use('/api/internal', internalRoutes);
 
 /**
