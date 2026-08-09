@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
+import { api } from '../../lib/api';
 
 const roleCategories = [
   {
@@ -41,8 +42,10 @@ const roleCategories = [
   },
 ];
 
-export default function CareerGoals({ selectedRoles, onChange, onBack, onCreate }) {
+export default function CareerGoals({ selectedRoles, aboutMe, onChange, onBack, onCreate }) {
   const [isValid, setIsValid] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
   useEffect(() => {
     setIsValid(selectedRoles.length > 0);
@@ -53,6 +56,28 @@ export default function CareerGoals({ selectedRoles, onChange, onBack, onCreate 
       onChange(selectedRoles.filter((r) => r !== role));
     } else {
       onChange([...selectedRoles, role]);
+    }
+  };
+
+  const handleFetchAISuggestions = async () => {
+    if (!aboutMe || !aboutMe.trim()) return;
+    setLoadingSuggestions(true);
+    try {
+      const data = await api.suggestRoles(aboutMe);
+      const suggestedRolesList = data.suggestions || [];
+      setSuggestions(suggestedRolesList);
+
+      // Auto-select the top suggested role
+      if (suggestedRolesList.length > 0) {
+        const topRole = suggestedRolesList[0].role;
+        if (!selectedRoles.includes(topRole)) {
+          onChange([...selectedRoles, topRole]);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch AI suggestions:', err);
+    } finally {
+      setLoadingSuggestions(false);
     }
   };
 
@@ -76,6 +101,75 @@ export default function CareerGoals({ selectedRoles, onChange, onBack, onCreate 
         </p>
       </div>
 
+      {/* AI Suggestions Section */}
+      {aboutMe && aboutMe.trim() ? (
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-4 border border-indigo-100/50 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-5 h-5 text-indigo-600 animate-pulse" />
+              <span className="text-xs font-extrabold text-indigo-950 uppercase tracking-wider">
+                AI Role Recommendations
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleFetchAISuggestions}
+              disabled={loadingSuggestions}
+              className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] rounded-lg shadow-sm transition-all flex items-center space-x-1 cursor-pointer disabled:opacity-50"
+            >
+              {loadingSuggestions ? (
+                <>
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  <span>Analyzing bio...</span>
+                </>
+              ) : (
+                <>
+                  <span>Suggest Roles</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {suggestions.length > 0 ? (
+            <div className="space-y-2">
+              <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
+                Based on your biography, spaCy NLP matched these top roles. Click to select/deselect them:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {suggestions.map((s) => {
+                  const isSelected = selectedRoles.includes(s.role);
+                  return (
+                    <button
+                      key={s.role}
+                      type="button"
+                      onClick={() => handleToggleRole(s.role)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center space-x-1 select-none active:scale-[0.98] cursor-pointer ${
+                        isSelected
+                          ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm'
+                          : 'bg-white border-indigo-100 text-indigo-700 hover:bg-indigo-50/50'
+                      }`}
+                    >
+                      <span>{s.role}</span>
+                      <span className="text-[9px] px-1 bg-indigo-100 text-indigo-800 rounded font-black">
+                        {s.score} match
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <p className="text-[10px] text-slate-500 leading-relaxed">
+              We found a biography in the previous step. Click the button above to let spaCy scan your interests and suggest matching roles!
+            </p>
+          )}
+        </div>
+      ) : (
+        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-[10px] text-slate-400 leading-relaxed">
+          💡 Want AI suggestions? Go back to the **Academic info** step and fill out the **About Me** biography field with your interests (e.g., "I love design and Figma" or "I like coding databases").
+        </div>
+      )}
+
       {/* Categorized Roles Pills Grid */}
       <div className="space-y-6">
         {roleCategories.map((category) => (
@@ -86,19 +180,27 @@ export default function CareerGoals({ selectedRoles, onChange, onBack, onCreate 
             <div className="flex flex-wrap gap-2.5">
               {category.roles.map((role) => {
                 const isSelected = selectedRoles.includes(role);
+                const isAISuggested = suggestions.some((s) => s.role === role);
                 
                 return (
                   <button
                     key={role}
                     type="button"
                     onClick={() => handleToggleRole(role)}
-                    className={`px-4 py-2 rounded-full text-xs md:text-sm font-semibold border select-none transition-all active:scale-[0.97] cursor-pointer ${
+                    className={`px-4 py-2 rounded-full text-xs md:text-sm font-semibold border select-none transition-all active:scale-[0.97] cursor-pointer flex items-center space-x-1.5 ${
                       isSelected
                         ? 'bg-primary border-primary text-white shadow-md shadow-primary/20'
                         : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50/50'
                     }`}
                   >
-                    {role}
+                    <span>{role}</span>
+                    {isAISuggested && (
+                      <span className={`px-1 text-[8px] font-black uppercase rounded ${
+                        isSelected ? 'bg-indigo-700 text-white' : 'bg-indigo-100 text-indigo-800'
+                      }`}>
+                        AI Match
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -133,3 +235,4 @@ export default function CareerGoals({ selectedRoles, onChange, onBack, onCreate 
     </div>
   );
 }
+

@@ -116,8 +116,771 @@ const ROLE_TEMPLATES = {
         }
       ]
     }
+  ],
+  'Software Developer': [
+    {
+      skillName: 'Algorithms & Data Structures',
+      demandPercent: 78,
+      durationWeeks: 5,
+      description: 'Essential for technical interviews at top firms like WSO2 and Sysco LABS.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Arrays, Lists, Stacks, Queues' },
+        { weeks: 'Wk 3-4', content: 'Sorting, searching, hashing' },
+        { weeks: 'Wk 5', content: 'Big O notation & complexity' }
+      ],
+      resources: [
+        {
+          title: 'Data Structures and Algorithms Specialization',
+          type: 'coursera',
+          url: 'https://www.coursera.org/specializations/data-structures-algorithms',
+          durationMins: 180,
+          xpReward: 150,
+          justification: 'Highly recommended for tech assessment preparation.'
+        }
+      ]
+    },
+    {
+      skillName: 'Git & Version Control',
+      demandPercent: 82,
+      durationWeeks: 3,
+      description: 'Standard version control system for code management.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Branching, merging, commit guidelines' },
+        { weeks: 'Wk 3', content: 'GitHub flow & pull requests' }
+      ],
+      resources: [
+        {
+          title: 'Version Control with Git',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=GIT_COURSE',
+          durationMins: 45,
+          xpReward: 90,
+          justification: 'Mandatory standard skill for all software developers.'
+        }
+      ]
+    }
+  ],
+  'Software Engineer': [
+    {
+      skillName: 'Algorithms & Data Structures',
+      demandPercent: 78,
+      durationWeeks: 5,
+      description: 'Core logic required to pass code assessments at major software exporters.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Trees, Graphs, Recursion' },
+        { weeks: 'Wk 3-4', content: 'Dynamic programming, greedy algorithms' },
+        { weeks: 'Wk 5', content: 'Algorithmic problem solving' }
+      ],
+      resources: [
+        {
+          title: 'Mastering Coding Interviews',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=DS_ALGO',
+          durationMins: 120,
+          xpReward: 130,
+          justification: 'Helps pass WSO2 and Codegen interviews.'
+        }
+      ]
+    },
+    {
+      skillName: 'System Design & Testing',
+      demandPercent: 70,
+      durationWeeks: 4,
+      description: 'Designing scalable architectures and writing unit tests.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Architecture patterns, MVC, microservices' },
+        { weeks: 'Wk 3-4', content: 'Unit testing, Jest, JUnit, mock frameworks' }
+      ],
+      resources: [
+        {
+          title: 'Software Architecture & System Design',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/system-design',
+          durationMins: 150,
+          xpReward: 120,
+          justification: 'Differentiates junior engineers from standard developers.'
+        }
+      ]
+    }
+  ],
+  'Full Stack Developer': [
+    {
+      skillName: 'React.js & Frontend',
+      demandPercent: 85,
+      durationWeeks: 5,
+      description: 'Building client-side applications with interactive states.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'React components, props, hooks' },
+        { weeks: 'Wk 3-4', content: 'State management, routing, fetch API' },
+        { weeks: 'Wk 5', content: 'Styling, Tailwind, component libraries' }
+      ],
+      resources: [
+        {
+          title: 'Full Stack React Tutorial',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=FS_REACT',
+          durationMins: 90,
+          xpReward: 110,
+          justification: 'Requested in 85% of full stack job postings.'
+        }
+      ]
+    },
+    {
+      skillName: 'Node.js & Express APIs',
+      demandPercent: 80,
+      durationWeeks: 4,
+      description: 'Building backends, handling auth, and managing server state.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Node runtime, Express router, middlewares' },
+        { weeks: 'Wk 3-4', content: 'Database connections, Prisma integration, JWT' }
+      ],
+      resources: [
+        {
+          title: 'Complete Node.js Developer Course',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/node-apis',
+          durationMins: 180,
+          xpReward: 140,
+          justification: 'Standard backend runtime for full stack roles.'
+        }
+      ]
+    }
+  ],
+  'Data Analyst': [
+    {
+      skillName: 'SQL / Databases',
+      demandPercent: 74,
+      durationWeeks: 4,
+      description: 'Writing queries, filtering, and aggregate analysis of records.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'SELECT, JOIN, WHERE, GROUP BY' },
+        { weeks: 'Wk 3-4', content: 'Subqueries, window functions, CTEs' }
+      ],
+      resources: [
+        {
+          title: 'SQL for Data Analysis',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/sql-data-analysis',
+          durationMins: 100,
+          xpReward: 100,
+          justification: 'Prerequisite for 74% of analyst roles in Colombo banks and telecom.'
+        }
+      ]
+    },
+    {
+      skillName: 'Excel for Business',
+      demandPercent: 80,
+      durationWeeks: 3,
+      description: 'Pivot tables, VLOOKUP, INDEX/MATCH, and business modeling.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Formulas, formatting, logic gates' },
+        { weeks: 'Wk 3', content: 'Pivot tables, pivot charts, dashboards' }
+      ],
+      resources: [
+        {
+          title: 'Advanced Excel for Business',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=EXCEL_ADV',
+          durationMins: 60,
+          xpReward: 80,
+          justification: 'Used daily by local companies like Dialog and Sri Lankan Airlines.'
+        }
+      ]
+    }
+  ],
+  'ML / AI Engineer': [
+    {
+      skillName: 'Python & Numpy',
+      demandPercent: 89,
+      durationWeeks: 4,
+      description: 'Standard programming language and numerical arrays library for ML.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'OOP Python, list comprehensions, modules' },
+        { weeks: 'Wk 3-4', content: 'Numpy arrays, vectorization, matrix math' }
+      ],
+      resources: [
+        {
+          title: 'Python for Data Science and Machine Learning',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/python-data-science',
+          durationMins: 140,
+          xpReward: 110,
+          justification: 'Baseline language for AI and machine learning fields.'
+        }
+      ]
+    },
+    {
+      skillName: 'Supervised Machine Learning',
+      demandPercent: 78,
+      durationWeeks: 5,
+      description: 'Regression, classification, scikit-learn, evaluation metrics.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Linear & Logistic Regression, Decision Trees' },
+        { weeks: 'Wk 3-4', content: 'Model evaluation, precision, recall, ROC-AUC' },
+        { weeks: 'Wk 5', content: 'Scikit-learn pipeline implementation' }
+      ],
+      resources: [
+        {
+          title: 'Machine Learning Specialization',
+          type: 'coursera',
+          url: 'https://www.coursera.org/specializations/machine-learning-introduction',
+          durationMins: 200,
+          xpReward: 160,
+          justification: 'Highly recognized certification by Andrew Ng.'
+        }
+      ]
+    }
+  ],
+  'DevOps / Cloud': [
+    {
+      skillName: 'Docker & Containerization',
+      demandPercent: 82,
+      durationWeeks: 4,
+      description: 'Containerizing applications, writing Dockerfiles, and managing images.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Containers vs VMs, Docker run, volumes' },
+        { weeks: 'Wk 3-4', content: 'Writing Dockerfiles, multi-stage builds, compose' }
+      ],
+      resources: [
+        {
+          title: 'Docker Beginners Course',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=DOCKER_BEGINNER',
+          durationMins: 50,
+          xpReward: 100,
+          justification: 'Required by 82% of DevOps and Cloud engineering roles.'
+        }
+      ]
+    },
+    {
+      skillName: 'AWS Cloud Infrastructure',
+      demandPercent: 80,
+      durationWeeks: 5,
+      description: 'AWS essentials: EC2, S3, RDS, VPC, and IAM policies.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Cloud concepts, EC2 computing, S3 storage' },
+        { weeks: 'Wk 3-4', content: 'VPC networking, security groups, RDS databases' },
+        { weeks: 'Wk 5', content: 'IAM users, roles, security best practices' }
+      ],
+      resources: [
+        {
+          title: 'AWS Certified Cloud Practitioner Training',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/aws-cloud-practitioner',
+          durationMins: 160,
+          xpReward: 130,
+          justification: 'Industry standard certification for cloud engineering.'
+        }
+      ]
+    }
+  ],
+  'QA Engineer': [
+    {
+      skillName: 'Software Testing Fundamentals',
+      demandPercent: 90,
+      durationWeeks: 4,
+      description: 'Test plans, test cases, bug lifecycles, and manual testing techniques.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Black-box vs White-box testing, SDLC models' },
+        { weeks: 'Wk 3-4', content: 'Writing test cases, bug reporting, Jira workflow' }
+      ],
+      resources: [
+        {
+          title: 'QA Manual Testing Course',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=QA_MANUAL',
+          durationMins: 60,
+          xpReward: 90,
+          justification: 'Essential base for entering Quality Assurance departments.'
+        }
+      ]
+    },
+    {
+      skillName: 'Selenium Automation',
+      demandPercent: 82,
+      durationWeeks: 4,
+      description: 'Writing automation test scripts in Selenium Webdriver.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Locators (XPath, CSS), WebDriver setup' },
+        { weeks: 'Wk 3-4', content: 'Automating forms, assertions, page object model' }
+      ],
+      resources: [
+        {
+          title: 'Selenium Webdriver Automation with Python/Java',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/selenium-automation',
+          durationMins: 120,
+          xpReward: 120,
+          justification: 'Highest demanded automation testing skill in local industry.'
+        }
+      ]
+    }
+  ],
+  'UX/UI Designer': [
+    {
+      skillName: 'Figma Design Essentials',
+      demandPercent: 92,
+      durationWeeks: 4,
+      description: 'Vector paths, components, autolayout, UI design patterns.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Figma interface, tools, grids, frames' },
+        { weeks: 'Wk 3-4', content: 'Autolayout, variables, components, variants' }
+      ],
+      resources: [
+        {
+          title: 'Figma UI UX Design Course for Beginners',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=FIGMA_INTRO',
+          durationMins: 80,
+          xpReward: 100,
+          justification: 'Required by 92% of local visual and UI designer listings.'
+        }
+      ]
+    },
+    {
+      skillName: 'UX Research Methods',
+      demandPercent: 85,
+      durationWeeks: 4,
+      description: 'User personas, interviews, mapping journeys, and usability studies.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Conducting user interviews, empathy maps' },
+        { weeks: 'Wk 3-4', content: 'Journey mapping, usability metrics, report writing' }
+      ],
+      resources: [
+        {
+          title: 'Google UX Design Professional Certificate',
+          type: 'coursera',
+          url: 'https://www.coursera.org/professional-certificates/google-ux-design',
+          durationMins: 240,
+          xpReward: 180,
+          justification: 'Highly regarded and structured UX foundation course.'
+        }
+      ]
+    }
+  ],
+  'UI/UX Designer': [
+    {
+      skillName: 'Figma Design Essentials',
+      demandPercent: 92,
+      durationWeeks: 4,
+      description: 'Master Figma tools, autolayout, components, and design systems.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Frames, grids, vectors, typography' },
+        { weeks: 'Wk 3-4', content: 'Autolayout, components, prototyping interactions' }
+      ],
+      resources: [
+        {
+          title: 'Figma UI UX Design Course for Beginners',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=FIGMA_INTRO',
+          durationMins: 80,
+          xpReward: 100,
+          justification: 'The standard UI layout tool used by 92% of Sri Lankan tech companies.'
+        }
+      ]
+    },
+    {
+      skillName: 'UX Research Methods',
+      demandPercent: 85,
+      durationWeeks: 4,
+      description: 'User interviews, personas, empathy maps, and usability evaluations.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Qualitative interviews, journey mapping' },
+        { weeks: 'Wk 3-4', content: 'Usability testing, feedback analysis, design adjustments' }
+      ],
+      resources: [
+        {
+          title: 'UX Research Fundamentals',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/ux-research',
+          durationMins: 110,
+          xpReward: 110,
+          justification: 'Crucial for developing user-centric web & mobile architectures.'
+        }
+      ]
+    }
+  ],
+  'Business Analyst': [
+    {
+      skillName: 'Requirements Gathering',
+      demandPercent: 88,
+      durationWeeks: 4,
+      description: 'Eliciting requirements, writing user stories, and managing scopes.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Stakeholder interviews, brainstorming, surveys' },
+        { weeks: 'Wk 3-4', content: 'Writing BRDs, SRS documents, and user story maps' }
+      ],
+      resources: [
+        {
+          title: 'Requirements Elicitation & Analysis',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/requirements-analysis',
+          durationMins: 90,
+          xpReward: 90,
+          justification: 'Primary function of a Business Analyst in local project delivery.'
+        }
+      ]
+    },
+    {
+      skillName: 'Agile & Scrum Processes',
+      demandPercent: 85,
+      durationWeeks: 3,
+      description: 'Scrum ceremonies, product backlogs, and sprint planning.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Scrum values, roles, ceremonies (daily, planning, review)' },
+        { weeks: 'Wk 3', content: 'Refining backlog, sprint estimations, burn-down charts' }
+      ],
+      resources: [
+        {
+          title: 'Scrum Alliance Agile Certification Prep',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=AGILE_SCRUM',
+          durationMins: 45,
+          xpReward: 80,
+          justification: 'Requested by virtusa, Sysco LABS, and 99x for project coordinators.'
+        }
+      ]
+    }
+  ],
+  'Product Manager': [
+    {
+      skillName: 'Product Strategy & Lifecycle',
+      demandPercent: 87,
+      durationWeeks: 4,
+      description: 'Market analysis, value propositions, and metrics (North Star, retention).',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Competitor analysis, business model canvas' },
+        { weeks: 'Wk 3-4', content: 'Defining metrics, product lifecycle stages' }
+      ],
+      resources: [
+        {
+          title: 'Product Management Fundamentals',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/product-management',
+          durationMins: 120,
+          xpReward: 110,
+          justification: 'Essential for defining product scope and strategy.'
+        }
+      ]
+    },
+    {
+      skillName: 'Agile & Roadmapping',
+      demandPercent: 85,
+      durationWeeks: 3,
+      description: 'Building visual product roadmaps and prioritizing backlogs.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Roadmapping tools, Gantt charts, timeline planning' },
+        { weeks: 'Wk 3', content: 'Prioritization frameworks: RICE, MoSCoW' }
+      ],
+      resources: [
+        {
+          title: 'How to build a Product Roadmap',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=ROADMAP_PM',
+          durationMins: 50,
+          xpReward: 95,
+          justification: 'Core deliverable for Product Managers communicating with developers.'
+        }
+      ]
+    }
+  ],
+  'Digital Marketing': [
+    {
+      skillName: 'SEO & Content Optimization',
+      demandPercent: 90,
+      durationWeeks: 4,
+      description: 'On-page SEO, link building, keyword research, and metadata.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Keyword indexing, search intents, site auditing' },
+        { weeks: 'Wk 3-4', content: 'Meta tags, headers, image alt text, backlinks' }
+      ],
+      resources: [
+        {
+          title: 'Search Engine Optimization Starter Course',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/seo-principles',
+          durationMins: 100,
+          xpReward: 100,
+          justification: 'Requested in 90% of local digital marketing listings.'
+        }
+      ]
+    },
+    {
+      skillName: 'Google Analytics & SEM',
+      demandPercent: 85,
+      durationWeeks: 3,
+      description: 'Configuring GA4, analyzing traffic, and running search ad campaigns.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'GA4 installation, metrics tracking, event conversions' },
+        { weeks: 'Wk 3', content: 'Google Ads, bidding strategies, ad copy' }
+      ],
+      resources: [
+        {
+          title: 'Google Analytics GA4 Certification Course',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=GA4_COURSE',
+          durationMins: 90,
+          xpReward: 90,
+          justification: 'The standard measurement tool for conversion and growth marketing.'
+        }
+      ]
+    }
+  ],
+  'Marketing Executive': [
+    {
+      skillName: 'Market Research & Analysis',
+      demandPercent: 85,
+      durationWeeks: 4,
+      description: 'Understanding consumer trends, surveys, and competitor landscapes.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'SWOT analysis, demographic segments' },
+        { weeks: 'Wk 3-4', content: 'Writing surveys, gathering customer feedback reports' }
+      ],
+      resources: [
+        {
+          title: 'Introduction to Market Research',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/market-research',
+          durationMins: 110,
+          xpReward: 95,
+          justification: 'Prerequisite for general marketing campaigns.'
+        }
+      ]
+    },
+    {
+      skillName: 'Business Communication',
+      demandPercent: 90,
+      durationWeeks: 3,
+      description: 'Pitching, presenting, PR writing, and verbal persuasion.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Slide deck presentation skills, pitch delivery' },
+        { weeks: 'Wk 3', content: 'Press releases, emailing strategies, negotiations' }
+      ],
+      resources: [
+        {
+          title: 'Effective Business Communication',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=COMM_SKILLS',
+          durationMins: 45,
+          xpReward: 80,
+          justification: 'Crucial for client pitches and corporate partnerships.'
+        }
+      ]
+    }
+  ],
+  'HR / People Ops': [
+    {
+      skillName: 'Talent Acquisition',
+      demandPercent: 88,
+      durationWeeks: 4,
+      description: 'Sourcing candidates, interviewing structures, and salary negotiation.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Job spec writing, screening applications, sourcing on LinkedIn' },
+        { weeks: 'Wk 3-4', content: 'Behavioral interviews, scoring matrices, making job offers' }
+      ],
+      resources: [
+        {
+          title: 'Recruiting and Sourcing Fundamentals',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/recruiting-talent',
+          durationMins: 100,
+          xpReward: 100,
+          justification: 'Key requirement for entry-level HR executives.'
+        }
+      ]
+    },
+    {
+      skillName: 'Employee Onboarding & Training',
+      demandPercent: 82,
+      durationWeeks: 3,
+      description: 'Designing first-week programs, resource setup, and corporate training plans.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Onboarding flows, team intros, document signoffs' },
+        { weeks: 'Wk 3', content: 'Internal skill training programs, performance evaluations' }
+      ],
+      resources: [
+        {
+          title: 'Onboarding and Performance Management',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=HR_ONBOARD',
+          durationMins: 40,
+          xpReward: 80,
+          justification: 'Sustains employee retention in high-growth companies.'
+        }
+      ]
+    }
+  ],
+  'Content Writer': [
+    {
+      skillName: 'Content Writing & Copywriting',
+      demandPercent: 90,
+      durationWeeks: 4,
+      description: 'Writing engaging blogs, website copy, articles, and call-to-actions.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Grammar, tone of voice, sentence rhythms' },
+        { weeks: 'Wk 3-4', content: 'Landing page copy, newsletters, call-to-action hooks' }
+      ],
+      resources: [
+        {
+          title: 'Copywriting Course for Beginners',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=COPY_INTRO',
+          durationMins: 75,
+          xpReward: 100,
+          justification: 'Base skill needed for marketing agencies and web publishers.'
+        }
+      ]
+    },
+    {
+      skillName: 'SEO Optimization',
+      demandPercent: 85,
+      durationWeeks: 3,
+      description: 'Keyword density, readability indices, and linking strategies.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'SEO keyword search, Yoast SEO setups' },
+        { weeks: 'Wk 3', content: 'H1/H2 header structures, meta snippets' }
+      ],
+      resources: [
+        {
+          title: 'SEO Content Writing Tutorial',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/seo-writing',
+          durationMins: 90,
+          xpReward: 90,
+          justification: 'Ensures that articles rank well on search engines.'
+        }
+      ]
+    }
+  ],
+  'UX Writer': [
+    {
+      skillName: 'UX Writing & Tone of Voice',
+      demandPercent: 88,
+      durationWeeks: 4,
+      description: 'Writing button copy, error messages, user flows, and tooltips.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Microcopy guidelines, clarity, conciseness' },
+        { weeks: 'Wk 3-4', content: 'Error messaging, navigation prompts, empty states' }
+      ],
+      resources: [
+        {
+          title: 'UX Writing: Microcopy Essentials',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/ux-writing',
+          durationMins: 90,
+          xpReward: 95,
+          justification: 'Highly valued specialization in product design groups.'
+        }
+      ]
+    },
+    {
+      skillName: 'Figma for Writers',
+      demandPercent: 75,
+      durationWeeks: 3,
+      description: 'Navigating Figma, editing copy directly in components, and branch updates.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Figma view structures, locating text blocks' },
+        { weeks: 'Wk 3', content: 'Modifying text properties, collaborating with UI developers' }
+      ],
+      resources: [
+        {
+          title: 'Figma for Writers & Content Designers',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=FIGMA_WRITING',
+          durationMins: 45,
+          xpReward: 80,
+          justification: 'Critical collaboration skill between writers and designers.'
+        }
+      ]
+    }
+  ],
+  'Journalist / Editor': [
+    {
+      skillName: 'Reporting & Interviewing',
+      demandPercent: 90,
+      durationWeeks: 4,
+      description: 'Investigating sources, framing questions, and drafting news reports.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Sourcing verify methods, interview preparations' },
+        { weeks: 'Wk 3-4', content: 'Structuring headlines, write-ups, and lead paragraphs' }
+      ],
+      resources: [
+        {
+          title: 'Journalism and News Writing Principles',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/journalism-writing',
+          durationMins: 110,
+          xpReward: 100,
+          justification: 'Baseline requirement for journalism associates.'
+        }
+      ]
+    },
+    {
+      skillName: 'Copyediting & Formatting',
+      demandPercent: 85,
+      durationWeeks: 3,
+      description: 'AP Style, punctuation checks, spelling edits, and logical clarity.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Sentence structures, punctuation review, passive voice reduction' },
+        { weeks: 'Wk 3', content: 'Publishing structures, content layout flow' }
+      ],
+      resources: [
+        {
+          title: 'Editing and Proofreading Skills',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=EDITING_SKILLS',
+          durationMins: 55,
+          xpReward: 85,
+          justification: 'Key skill for editorial positions.'
+        }
+      ]
+    }
+  ],
+  'Research / Policy': [
+    {
+      skillName: 'Research Methodologies',
+      demandPercent: 90,
+      durationWeeks: 5,
+      description: 'Quantitative vs qualitative methods, literature reviews, ethics.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Literature database search, framing hypotheses' },
+        { weeks: 'Wk 3-4', content: 'Survey design, research ethics, focus group plans' },
+        { weeks: 'Wk 5', content: 'Formatting bibliographies and citations' }
+      ],
+      resources: [
+        {
+          title: 'Introduction to Research Methods',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/research-methods',
+          durationMins: 150,
+          xpReward: 120,
+          justification: 'Baseline academic and policy research skill.'
+        }
+      ]
+    },
+    {
+      skillName: 'Policy Analysis & Reports',
+      demandPercent: 85,
+      durationWeeks: 4,
+      description: 'Analyzing political, economic, or social policies and writing brief reports.',
+      weeksDetails: [
+        { weeks: 'Wk 1-2', content: 'Stakeholder mapping, impact modeling' },
+        { weeks: 'Wk 3-4', content: 'Drafting policy briefs, executive summaries, and action plans' }
+      ],
+      resources: [
+        {
+          title: 'Public Policy Analysis',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=POLICY_ANALYSIS',
+          durationMins: 60,
+          xpReward: 90,
+          justification: 'Required by think-tanks and NGOs.'
+        }
+      ]
+    }
   ]
 };
+
 
 const DEFAULT_TEMPLATE = [
   {

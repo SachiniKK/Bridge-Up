@@ -175,6 +175,7 @@ export default function Signup() {
             {currentStep === 3 && (
               <CareerGoals
                 selectedRoles={formData.selectedRoles}
+                aboutMe={formData.aboutMe}
                 onChange={(roles) => handleUpdateFormData({ selectedRoles: roles })}
                 onBack={handlePrevStep}
                 onCreate={handleRegisterSubmit}

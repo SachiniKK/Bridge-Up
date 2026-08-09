@@ -49,3 +49,14 @@ def deduplicate_jobs(db: Session = Depends(get_db)):
     pairs = find_near_duplicates(db)
     marked_count = mark_duplicates(pairs, db)
     return {"marked_duplicates": marked_count}
+
+from pydantic import BaseModel
+from app.nlp_pipeline.role_suggester import suggest_roles
+
+class SuggestRolesRequest(BaseModel):
+    text: str
+
+@router.post("/suggest-roles", status_code=status.HTTP_200_OK)
+def suggest_roles_endpoint(payload: SuggestRolesRequest):
+    return {"suggestions": suggest_roles(payload.text)}
+

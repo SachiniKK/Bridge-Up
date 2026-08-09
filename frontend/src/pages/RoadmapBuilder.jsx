@@ -9,35 +9,100 @@ export default function RoadmapBuilder() {
   const studentId = getStudentId();
   const navigate = useNavigate();
 
-  const ROLE_SKILLS = {
+const ROLE_SKILLS = {
+    'Software Developer': ['Git & Version Control', 'Algorithms', 'Data Structures', 'System Design', 'Testing'],
+    'Software Engineer': ['Git & Version Control', 'Algorithms', 'Data Structures', 'System Design', 'Testing'],
     'Backend Developer': ['REST APIs', 'Git & Version Control', 'SQL / Databases', 'Java', 'Springboot'],
     'Frontend Developer': ['React.js', 'JavaScript', 'CSS & Styling', 'HTML', 'Figma'],
+    'Full Stack Developer': ['React.js', 'Node.js', 'SQL / Databases', 'REST APIs', 'Git & Version Control'],
     'Data Analyst': ['SQL / Databases', 'Excel', 'Python', 'PowerBI', 'Tableau'],
+    'ML / AI Engineer': ['Python', 'SQL / Databases', 'TensorFlow', 'Pandas', 'NumPy'],
+    'DevOps / Cloud': ['Docker', 'Kubernetes', 'AWS', 'CI/CD', 'Git & Version Control'],
+    'QA Engineer': ['Testing', 'Git & Version Control', 'Python', 'Selenium', 'API Testing'],
+    'UI/UX Designer': ['Figma', 'UX Research', 'Wireframing', 'Prototyping', 'Visual Design'],
     'UX/UI Designer': ['Figma', 'UX Research', 'Wireframing', 'Prototyping', 'Visual Design'],
-    'Software Engineer': ['Git & Version Control', 'Algorithms', 'Data Structures', 'System Design', 'Testing']
+    
+    'Business Analyst': ['Requirements Gathering', 'SQL / Databases', 'Excel', 'Agile', 'Communication Skills'],
+    'Marketing Executive': ['Market Research', 'Communication Skills', 'Content Strategy', 'Excel', 'Social Media'],
+    'Digital Marketing': ['SEO', 'Google Analytics', 'Content Strategy', 'Social Media', 'Ad Campaigns'],
+    'Product Manager': ['Product Strategy', 'Agile', 'UX Research', 'Communication Skills', 'Project Management'],
+    'HR / People Ops': ['Talent Acquisition', 'Communication Skills', 'Onboarding', 'Conflict Resolution', 'Employee Engagement'],
+    
+    'Content Writer': ['Content Strategy', 'SEO', 'Communication Skills', 'Copywriting', 'Editing'],
+    'UX Writer': ['UX Writing', 'Figma', 'UX Research', 'Communication Skills', 'Wireframing'],
+    'Journalist / Editor': ['Writing', 'Editing', 'Fact Checking', 'Interviewing', 'Communication Skills'],
+    'Research / Policy': ['Research Methods', 'Data Analysis', 'Report Writing', 'Policy Analysis', 'Communication Skills'],
+    '🤷‍♂️ Not sure yet': ['General Programming', 'Problem Solving', 'Communication Skills', 'Git & Version Control', 'Agile']
   };
+
+  const ALL_ROLES_METADATA = [
+    // Tech Roles
+    { name: 'Software Developer', category: 'tech', desc: 'Desktop, mobile, or system software' },
+    { name: 'Software Engineer', category: 'tech', desc: 'Algorithms, systems, engineering principles' },
+    { name: 'Backend Developer', category: 'tech', desc: 'APIs, databases, server routing' },
+    { name: 'Frontend Developer', category: 'tech', desc: 'React, UI styling, web layouts' },
+    { name: 'Full Stack Developer', category: 'tech', desc: 'Client interfaces, server logic, databases' },
+    { name: 'Data Analyst', category: 'tech', desc: 'SQL queries, Excel modeling, dashboards' },
+    { name: 'ML / AI Engineer', category: 'tech', desc: 'Machine learning, Python models, data arrays' },
+    { name: 'DevOps / Cloud', category: 'tech', desc: 'Docker containers, CI/CD pipelines, AWS cloud' },
+    { name: 'QA Engineer', category: 'tech', desc: 'Quality assurance, automation, test cases' },
+    { name: 'UI/UX Designer', category: 'tech', desc: 'Figma wireframes, prototyping, user research' },
+
+    // Business Roles
+    { name: 'Business Analyst', category: 'business', desc: 'Business requirements, workflow mapping, Agile' },
+    { name: 'Marketing Executive', category: 'business', desc: 'Market research, presentations, campaigns' },
+    { name: 'Digital Marketing', category: 'business', desc: 'SEO tracking, ad runs, web analytics' },
+    { name: 'Product Manager', category: 'business', desc: 'Product scope, prioritization, strategy roadmaps' },
+    { name: 'HR / People Ops', category: 'business', desc: 'Hiring, onboarding, employee engagement' },
+
+    // Content Roles
+    { name: 'Content Writer', category: 'content', desc: 'Blogging, articles, web copywriting, SEO' },
+    { name: 'UX Writer', category: 'content', desc: 'Interface copy, microcopy, tooltips, guidance' },
+    { name: 'Journalist / Editor', category: 'content', desc: 'News gathering, interviewing, editorial checks' },
+    { name: 'Research / Policy', category: 'content', desc: 'Policy briefs, quantitative and qualitative research' },
+    { name: '🤷‍♂️ Not sure yet', category: 'content', desc: 'Explore general skills' }
+  ];
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState(['Backend Developer']);
-  const [selfAssessments, setSelfAssessments] = useState({
-    'REST APIs': 'None',
-    'Git & Version Control': 'None',
-    'SQL / Databases': 'None',
-    'Java': 'None',
-    'Springboot': 'None'
-  });
   
+  // Calculate dynamic roles list based on user categories from signup
+  const rolesList = React.useMemo(() => {
+    const userRoles = user?.selectedRoles || [];
+    const categories = new Set();
+    userRoles.forEach(r => {
+      const match = ALL_ROLES_METADATA.find(meta => meta.name.toLowerCase() === r.toLowerCase());
+      if (match) categories.add(match.category);
+    });
+
+    const activeCategories = Array.from(categories);
+    const targetCategories = activeCategories.length > 0 ? activeCategories : ['tech'];
+
+    return ALL_ROLES_METADATA.filter(r => targetCategories.includes(r.category));
+  }, [user]);
+
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [selfAssessments, setSelfAssessments] = useState({});
+
+  // Initialize selected role and assessments once rolesList is calculated
+  React.useEffect(() => {
+    if (rolesList.length > 0) {
+      const preferredRole = user?.selectedRoles?.find(ur => rolesList.some(rl => rl.name.toLowerCase() === ur.toLowerCase()));
+      const initialRole = preferredRole || rolesList[0].name;
+      
+      setSelectedRoles([initialRole]);
+
+      const skills = ROLE_SKILLS[initialRole] || ROLE_SKILLS['Backend Developer'] || [];
+      const initialAssessments = {};
+      skills.forEach(s => {
+        initialAssessments[s] = 'None';
+      });
+      setSelfAssessments(initialAssessments);
+    }
+  }, [rolesList, user]);
+
   // Generated roadmap container
   const [generatedRoadmap, setGeneratedRoadmap] = useState(null);
-
-  const rolesList = [
-    { name: 'Backend Developer', desc: 'APIs, databases, servers' },
-    { name: 'Frontend Developer', desc: 'React, UI, web apps' },
-    { name: 'Data Analyst', desc: 'SQL, Excel, dashboards' },
-    { name: 'UX/UI Designer', desc: 'Figma, research, wireframes' },
-    { name: 'Software Engineer', desc: 'Algorithms, systems, engineering' }
-  ];
 
   const skillOptions = ['None', 'Heard of it', 'Used it', 'Comfortable'];
 

@@ -78,6 +78,8 @@ export const api = {
     request(`/auth/students/${studentId}/profile`, { method: 'PUT', body: JSON.stringify(data) }),
   updateOnboarding: (studentId, data) =>
     request(`/auth/students/${studentId}/onboarding`, { method: 'PUT', body: JSON.stringify(data) }),
+  suggestRoles: (text) =>
+    request('/auth/suggest-roles', { method: 'POST', body: JSON.stringify({ text }) }),
 
   // Employer Skill Signals
   createEmployerSignal: (data) =>

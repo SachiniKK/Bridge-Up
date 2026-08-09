@@ -336,3 +336,29 @@ exports.updateOnboarding = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.suggestRoles = async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text || !text.trim()) {
+      return res.json({ suggestions: [] });
+    }
+
+    const response = await fetch('http://localhost:8000/pipeline/suggest-roles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+
+    if (!response.ok) {
+      throw new Error(`NLP service returned status ${response.status}`);
+    }
+
+    const data = await response.json();
+    return res.json(data);
+  } catch (error) {
+    console.error('Suggest Roles Error:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
