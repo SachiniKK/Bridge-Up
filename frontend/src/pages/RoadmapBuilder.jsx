@@ -9,14 +9,22 @@ export default function RoadmapBuilder() {
   const studentId = getStudentId();
   const navigate = useNavigate();
 
+  const ROLE_SKILLS = {
+    'Backend Developer': ['REST APIs', 'Git & Version Control', 'SQL / Databases', 'Java', 'Springboot'],
+    'Frontend Developer': ['React.js', 'JavaScript', 'CSS & Styling', 'HTML', 'Figma'],
+    'Data Analyst': ['SQL / Databases', 'Excel', 'Python', 'PowerBI', 'Tableau'],
+    'UX/UI Designer': ['Figma', 'UX Research', 'Wireframing', 'Prototyping', 'Visual Design'],
+    'Software Engineer': ['Git & Version Control', 'Algorithms', 'Data Structures', 'System Design', 'Testing']
+  };
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [selectedRoles, setSelectedRoles] = useState(['Backend Developer']);
   const [selfAssessments, setSelfAssessments] = useState({
-    'Git / Version Control': 'None',
+    'REST APIs': 'None',
+    'Git & Version Control': 'None',
+    'SQL / Databases': 'None',
     'Java': 'None',
-    'REST API': 'None',
-    'SQL / Database': 'None',
     'Springboot': 'None'
   });
   
@@ -27,17 +35,20 @@ export default function RoadmapBuilder() {
     { name: 'Backend Developer', desc: 'APIs, databases, servers' },
     { name: 'Frontend Developer', desc: 'React, UI, web apps' },
     { name: 'Data Analyst', desc: 'SQL, Excel, dashboards' },
-    { name: 'UX / UI Designer', desc: 'Figma, research, wireframes' },
-    { name: 'Digital Marketer', desc: 'SEO, content, social media' },
-    { name: 'Business Analyst', desc: 'Requirements, process, data' }
+    { name: 'UX/UI Designer', desc: 'Figma, research, wireframes' },
+    { name: 'Software Engineer', desc: 'Algorithms, systems, engineering' }
   ];
 
   const skillOptions = ['None', 'Heard of it', 'Used it', 'Comfortable'];
 
   function handleToggleRole(roleName) {
-    setSelectedRoles(prev => 
-      prev.includes(roleName) ? prev.filter(r => r !== roleName) : [...prev, roleName]
-    );
+    setSelectedRoles([roleName]);
+    const skills = ROLE_SKILLS[roleName] || ROLE_SKILLS['Backend Developer'];
+    const initialAssessments = {};
+    skills.forEach(s => {
+      initialAssessments[s] = 'None';
+    });
+    setSelfAssessments(initialAssessments);
   }
 
   function handleSetRating(skill, rating) {
@@ -52,19 +63,9 @@ export default function RoadmapBuilder() {
     setLoading(true);
     try {
       // Register selections on backend profile onboarding
-      // Map self-assessments key names to match schema.prisma skill names
-      const mappedAssessments = {
-        'Git & Version Control': selfAssessments['Git / Version Control'],
-        'REST APIs': selfAssessments['REST API'],
-        'SQL / Databases': selfAssessments['SQL / Database'],
-        'Java': selfAssessments['Java'],
-        'Springboot': selfAssessments['Springboot']
-      };
-
-      // Call API
       const result = await api.updateOnboarding(studentId, {
-        degree: user.degree || 'Computer Science',
-        currentYear: user.currentYear || '3rd Year',
+        degree: user?.degree || 'Computer Science',
+        currentYear: user?.currentYear || '3rd Year',
         selectedRoles,
         weeklyHours: 5
       });
@@ -72,7 +73,7 @@ export default function RoadmapBuilder() {
       // Fetch the generated roadmap steps from service
       const roadmap = await api.regenerateRoadmap(studentId, {
         targetRole: selectedRoles[0],
-        selfAssessments: mappedAssessments
+        selfAssessments: selfAssessments
       });
 
       setGeneratedRoadmap(roadmap);

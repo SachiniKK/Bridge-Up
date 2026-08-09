@@ -16,13 +16,25 @@ export default function LearningPathPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   
-  // Custom checklist states (mocking task list in Image 2)
-  const [tasks, setTasks] = useState([
-    { id: 1, text: 'Watch intro video', xp: 20, done: true },
-    { id: 2, text: 'Set up Node + Express environment', xp: 20, done: true },
-    { id: 3, text: 'Build a GET /products endpoint', xp: 40, done: false },
-    { id: 4, text: 'Submit for peer review', xp: 40, done: false }
-  ]);
+  // Custom checklist completion states
+  const [completedTasks, setCompletedTasks] = useState({});
+
+  // Derive tasks checklist dynamically from weeksDetails of the active step
+  const tasks = React.useMemo(() => {
+    if (!activeStep || !activeStep.weeksDetails) return [];
+    if (Array.isArray(activeStep.weeksDetails)) {
+      return activeStep.weeksDetails.map((w, idx) => {
+        const key = `${activeStep.id}-${idx}`;
+        return {
+          id: idx + 1,
+          text: `${w.weeks}: ${w.content}`,
+          xp: idx === 0 ? 20 : 40,
+          done: !!completedTasks[key]
+        };
+      });
+    }
+    return [];
+  }, [activeStep, completedTasks]);
 
   // Squad activity mock list
   const [squad, setSquad] = useState([
@@ -62,19 +74,13 @@ export default function LearningPathPage() {
   }
 
   async function handleToggleTask(taskId) {
-    setTasks(prev => prev.map(t => {
-      if (t.id === taskId) {
-        const nextDone = !t.done;
-        // Award XP if completed
-        if (nextDone) {
-          api.getXP(studentId).then(async () => {
-            // simulate XP award
-          });
-        }
-        return { ...t, done: nextDone };
-      }
-      return t;
-    }));
+    const idx = taskId - 1;
+    const key = `${activeStep.id}-${idx}`;
+    const nextDone = !completedTasks[key];
+    setCompletedTasks(prev => ({ ...prev, [key]: nextDone }));
+    if (nextDone) {
+      setMessage(`Task completed! +${idx === 0 ? 20 : 40} XP awarded locally.`);
+    }
   }
 
   async function handleCompleteResource(resourceId) {
@@ -142,11 +148,13 @@ export default function LearningPathPage() {
       <header className="w-full bg-white border-b border-slate-100 py-6 px-8 sticky top-0 z-40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <span className="text-[10px] font-extrabold text-primary bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
-            {activeStep.skillName} — Module 3 of {roadmap.steps.length}
+            {activeStep.skillName} — Module {roadmap.steps.findIndex(s => s.id === activeStep.id) + 1} of {roadmap.steps.length}
           </span>
-          <h1 className="text-2xl font-extrabold text-slate-800 mt-2">Building Your First API in Node.js</h1>
+          <h1 className="text-2xl font-extrabold text-slate-800 mt-2">
+            {activeStep.skillName === 'REST APIs' ? 'Building Your First API in Node.js' : `Mastering ${activeStep.skillName}`}
+          </h1>
           <p className="text-slate-400 text-xs font-semibold mt-1">
-            Built around what Sri Lankan tech companies like WSO2, IFS, and Dialog Axiata actually ask in entry-level interviews.
+            Built around what Sri Lankan tech companies like WSO2, IFS, and Dialog Axiata actually ask in entry-level interviews for {activeStep.skillName}.
           </p>
         </div>
       </header>
@@ -168,7 +176,7 @@ export default function LearningPathPage() {
                 <PlayCircle className="w-16 h-16 text-white/90 drop-shadow-md group-hover:scale-105 transition-transform" />
               </div>
               <span className="absolute bottom-4 right-4 bg-slate-900/80 text-white text-[10px] font-black px-2 py-0.5 rounded">
-                13:42
+                {activeStep.resources && activeStep.resources[0] ? `${activeStep.resources[0].durationMins}:00` : '15:00'}
               </span>
               <span className="text-white/20 font-black text-6xl tracking-wider select-none">API</span>
             </div>
@@ -176,10 +184,10 @@ export default function LearningPathPage() {
             <div className="p-5 flex items-center justify-between">
               <div>
                 <h3 className="font-extrabold text-slate-800 text-sm">
-                  Intro: REST APIs & why Sri Lankan devs need this now
+                  {activeStep.resources && activeStep.resources[0] ? activeStep.resources[0].title : `Intro: ${activeStep.skillName} Fundamentals`}
                 </h3>
                 <p className="text-[10px] font-semibold text-slate-400 mt-0.5">
-                  With Kasun Jayawardena · Senior Dev at WSO2
+                  {activeStep.resources && activeStep.resources[0] ? (activeStep.resources[0].justification || 'Required for tech candidates') : 'Core learning module'}
                 </p>
               </div>
               {activeStep.resources && activeStep.resources[0] && (

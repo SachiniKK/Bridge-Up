@@ -248,7 +248,7 @@ export default function Dashboard({ user, onLogout }) {
               {/* Calendar & Upcoming Events Card */}
               <div className="bg-white rounded-3xl p-6 shadow-md border border-slate-100 space-y-6">
                 {/* Embedded CalendarWidget */}
-                <CalendarWidget />
+                <CalendarWidget roadmap={roadmap} />
 
                 {/* Upcoming Events Section */}
                 <div className="space-y-4 pt-6 border-t border-slate-100">
