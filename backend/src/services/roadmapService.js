@@ -14,17 +14,17 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Intro: REST APIs & why Sri Lankan devs need this now',
+          title: 'REST API & HTTP Crash Course — Traversy Media',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=REST_INTRO',
+          url: 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
           durationMins: 45,
           xpReward: 120,
           justification: 'Required for 87% of local job postings including WSO2 and Sysco LABS.'
         },
         {
-          title: 'Node.js & Express REST API Crash Course',
+          title: 'IBM Node.js & Express.js Back-End App Development',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/node-express-apis',
+          url: 'https://www.coursera.org/learn/developing-backend-apps-with-nodejs-and-express',
           durationMins: 180,
           xpReward: 150,
           justification: 'Highly recommended by Sysco LABS for internship eligibility.'
@@ -43,10 +43,10 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Git and GitHub Crash Course for Beginners',
+          title: 'Git & GitHub Full Course for Beginners — freeCodeCamp',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=GIT_INTRO',
-          durationMins: 30,
+          url: 'https://www.youtube.com/watch?v=RGOj5yH7evk',
+          durationMins: 60,
           xpReward: 80,
           justification: 'Required by 82% of entry-level engineering postings.'
         }
@@ -64,9 +64,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'SQL Databases Tutorial for Backend Engineers',
-          type: 'edx',
-          url: 'https://www.edx.org/learn/sql-databases',
+          title: 'IBM Databases and SQL for Data Science with Python',
+          type: 'coursera',
+          url: 'https://www.coursera.org/learn/sql-data-science',
           durationMins: 120,
           xpReward: 100,
           justification: 'Required for IFS screening assessment.'
@@ -87,10 +87,10 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'React Course for Beginners 2026',
+          title: 'React JS Full Course 2024 — freeCodeCamp',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=REACT_INTRO',
-          durationMins: 60,
+          url: 'https://www.youtube.com/watch?v=x4rFhThSX04',
+          durationMins: 120,
           xpReward: 100,
           justification: 'Directly requested in 88% of frontend postings including Creative Software.'
         }
@@ -107,9 +107,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Modern JS from the Beginning',
-          type: 'coursera',
-          url: 'https://www.coursera.org/learn/modern-javascript',
+          title: 'JavaScript Full Course for Beginners — Bro Code',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=lfmg-EJ8gm4',
           durationMins: 150,
           xpReward: 120,
           justification: 'Base requirement for Virtusa frontend training track.'
@@ -130,9 +130,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Data Structures and Algorithms Specialization',
+          title: 'Algorithms Specialization — Stanford (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/specializations/data-structures-algorithms',
+          url: 'https://www.coursera.org/specializations/algorithms',
           durationMins: 180,
           xpReward: 150,
           justification: 'Highly recommended for tech assessment preparation.'
@@ -150,9 +150,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Version Control with Git',
+          title: 'Git & GitHub Crash Course — Traversy Media',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=GIT_COURSE',
+          url: 'https://www.youtube.com/watch?v=SWYqp7iY_Tc',
           durationMins: 45,
           xpReward: 90,
           justification: 'Mandatory standard skill for all software developers.'
@@ -173,9 +173,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Mastering Coding Interviews',
+          title: 'Data Structures & Algorithms Full Course — freeCodeCamp',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=DS_ALGO',
+          url: 'https://www.youtube.com/watch?v=8hly31xKli0',
           durationMins: 120,
           xpReward: 130,
           justification: 'Helps pass WSO2 and Codegen interviews.'
@@ -193,9 +193,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Software Architecture & System Design',
-          type: 'coursera',
-          url: 'https://www.coursera.org/learn/system-design',
+          title: 'Software Architecture & Design of Modern Large Scale Systems',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=i53Gi_K3o7I',
           durationMins: 150,
           xpReward: 120,
           justification: 'Differentiates junior engineers from standard developers.'
@@ -216,9 +216,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Full Stack React Tutorial',
-          type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=FS_REACT',
+          title: 'Full Stack Web Development with React — Hong Kong Univ. (Coursera)',
+          type: 'coursera',
+          url: 'https://www.coursera.org/specializations/full-stack-react',
           durationMins: 90,
           xpReward: 110,
           justification: 'Requested in 85% of full stack job postings.'
@@ -236,9 +236,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Complete Node.js Developer Course',
-          type: 'coursera',
-          url: 'https://www.coursera.org/learn/node-apis',
+          title: 'Node.js & Express.js Full Course — freeCodeCamp',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=Oe421EPjeBE',
           durationMins: 180,
           xpReward: 140,
           justification: 'Standard backend runtime for full stack roles.'
@@ -258,9 +258,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'SQL for Data Analysis',
+          title: 'IBM Databases and SQL for Data Science with Python',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/sql-data-analysis',
+          url: 'https://www.coursera.org/learn/sql-data-science',
           durationMins: 100,
           xpReward: 100,
           justification: 'Prerequisite for 74% of analyst roles in Colombo banks and telecom.'
@@ -278,9 +278,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Advanced Excel for Business',
+          title: 'Excel for Beginners to Advanced — Kevin Stratvert',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=EXCEL_ADV',
+          url: 'https://www.youtube.com/watch?v=PSNXoAs2FtQ',
           durationMins: 60,
           xpReward: 80,
           justification: 'Used daily by local companies like Dialog and Sri Lankan Airlines.'
@@ -300,9 +300,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Python for Data Science and Machine Learning',
+          title: 'IBM Python for Data Science, AI & Development',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/python-data-science',
+          url: 'https://www.coursera.org/learn/python-for-applied-data-science-ai',
           durationMins: 140,
           xpReward: 110,
           justification: 'Baseline language for AI and machine learning fields.'
@@ -321,7 +321,7 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Machine Learning Specialization',
+          title: 'Machine Learning Specialization — Andrew Ng (Coursera)',
           type: 'coursera',
           url: 'https://www.coursera.org/specializations/machine-learning-introduction',
           durationMins: 200,
@@ -343,9 +343,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Docker Beginners Course',
+          title: 'Docker Tutorial for Beginners — TechWorld with Nana',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=DOCKER_BEGINNER',
+          url: 'https://www.youtube.com/watch?v=3c-iBn73dDE',
           durationMins: 50,
           xpReward: 100,
           justification: 'Required by 82% of DevOps and Cloud engineering roles.'
@@ -364,9 +364,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'AWS Certified Cloud Practitioner Training',
+          title: 'AWS Cloud Practitioner Essentials — Amazon (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/aws-cloud-practitioner',
+          url: 'https://www.coursera.org/learn/aws-cloud-practitioner-essentials',
           durationMins: 160,
           xpReward: 130,
           justification: 'Industry standard certification for cloud engineering.'
@@ -386,9 +386,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'QA Manual Testing Course',
+          title: 'Software Testing Full Course — Edureka',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=QA_MANUAL',
+          url: 'https://www.youtube.com/watch?v=sO8eGL6SFsA',
           durationMins: 60,
           xpReward: 90,
           justification: 'Essential base for entering Quality Assurance departments.'
@@ -406,9 +406,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Selenium Webdriver Automation with Python/Java',
-          type: 'coursera',
-          url: 'https://www.coursera.org/learn/selenium-automation',
+          title: 'Selenium WebDriver with Java — Basics to Advanced (Udemy preview on YouTube)',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=_JNeiGbAgL4',
           durationMins: 120,
           xpReward: 120,
           justification: 'Highest demanded automation testing skill in local industry.'
@@ -428,9 +428,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Figma UI UX Design Course for Beginners',
+          title: 'Figma UI Design Tutorial — Full Course for Beginners (DesignCourse)',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=FIGMA_INTRO',
+          url: 'https://www.youtube.com/watch?v=HZuk6Wkx_Eg',
           durationMins: 80,
           xpReward: 100,
           justification: 'Required by 92% of local visual and UI designer listings.'
@@ -448,7 +448,7 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Google UX Design Professional Certificate',
+          title: 'Google UX Design Professional Certificate — Google (Coursera)',
           type: 'coursera',
           url: 'https://www.coursera.org/professional-certificates/google-ux-design',
           durationMins: 240,
@@ -470,9 +470,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Figma UI UX Design Course for Beginners',
+          title: 'Figma UI Design Tutorial — Full Course for Beginners (DesignCourse)',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=FIGMA_INTRO',
+          url: 'https://www.youtube.com/watch?v=HZuk6Wkx_Eg',
           durationMins: 80,
           xpReward: 100,
           justification: 'The standard UI layout tool used by 92% of Sri Lankan tech companies.'
@@ -490,9 +490,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'UX Research Fundamentals',
+          title: 'UX Research & Design Specialization — Michigan Univ. (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/ux-research',
+          url: 'https://www.coursera.org/specializations/michiganux',
           durationMins: 110,
           xpReward: 110,
           justification: 'Crucial for developing user-centric web & mobile architectures.'
@@ -512,9 +512,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Requirements Elicitation & Analysis',
+          title: 'Requirements Elicitation & Analysis — UNSW (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/requirements-analysis',
+          url: 'https://www.coursera.org/learn/requirements-elicitation',
           durationMins: 90,
           xpReward: 90,
           justification: 'Primary function of a Business Analyst in local project delivery.'
@@ -532,12 +532,12 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Scrum Alliance Agile Certification Prep',
+          title: 'Agile & Scrum Full Course for Beginners — Simplilearn',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=AGILE_SCRUM',
+          url: 'https://www.youtube.com/watch?v=GzzkpAOxHXs',
           durationMins: 45,
           xpReward: 80,
-          justification: 'Requested by virtusa, Sysco LABS, and 99x for project coordinators.'
+          justification: 'Requested by Virtusa, Sysco LABS, and 99x for project coordinators.'
         }
       ]
     }
@@ -554,9 +554,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Product Management Fundamentals',
+          title: 'IBM Product Manager Professional Certificate (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/product-management',
+          url: 'https://www.coursera.org/professional-certificates/ibm-product-manager',
           durationMins: 120,
           xpReward: 110,
           justification: 'Essential for defining product scope and strategy.'
@@ -574,9 +574,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'How to build a Product Roadmap',
+          title: 'How to Build a Product Roadmap — Product School',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=ROADMAP_PM',
+          url: 'https://www.youtube.com/watch?v=QSHn12S6cWQ',
           durationMins: 50,
           xpReward: 95,
           justification: 'Core deliverable for Product Managers communicating with developers.'
@@ -596,9 +596,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Search Engine Optimization Starter Course',
-          type: 'coursera',
-          url: 'https://www.coursera.org/learn/seo-principles',
+          title: 'SEO Training Course — Ahrefs (YouTube)',
+          type: 'youtube',
+          url: 'https://www.youtube.com/watch?v=xsVTqzratPs',
           durationMins: 100,
           xpReward: 100,
           justification: 'Requested in 90% of local digital marketing listings.'
@@ -616,9 +616,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Google Analytics GA4 Certification Course',
+          title: 'Google Analytics 4 (GA4) Tutorial for Beginners — Loves Data',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=GA4_COURSE',
+          url: 'https://www.youtube.com/watch?v=M5F-M07eFzQ',
           durationMins: 90,
           xpReward: 90,
           justification: 'The standard measurement tool for conversion and growth marketing.'
@@ -638,9 +638,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Introduction to Market Research',
+          title: 'Market Research Specialization — UC Davis (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/market-research',
+          url: 'https://www.coursera.org/specializations/market-research',
           durationMins: 110,
           xpReward: 95,
           justification: 'Prerequisite for general marketing campaigns.'
@@ -658,9 +658,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Effective Business Communication',
+          title: 'Business Communication Skills — TED Talks Playlist',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=COMM_SKILLS',
+          url: 'https://www.youtube.com/watch?v=HAnw168huqA',
           durationMins: 45,
           xpReward: 80,
           justification: 'Crucial for client pitches and corporate partnerships.'
@@ -680,9 +680,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Recruiting and Sourcing Fundamentals',
+          title: 'Recruiting, Hiring and Onboarding Employees — Minnesota Univ. (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/recruiting-talent',
+          url: 'https://www.coursera.org/learn/recruiting',
           durationMins: 100,
           xpReward: 100,
           justification: 'Key requirement for entry-level HR executives.'
@@ -700,9 +700,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Onboarding and Performance Management',
+          title: 'Employee Onboarding Best Practices — SHRM',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=HR_ONBOARD',
+          url: 'https://www.youtube.com/watch?v=mO2oXQEHhHk',
           durationMins: 40,
           xpReward: 80,
           justification: 'Sustains employee retention in high-growth companies.'
@@ -722,9 +722,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Copywriting Course for Beginners',
+          title: 'Copywriting Course: Become a Freelance Copywriter — Alex Cattoni',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=COPY_INTRO',
+          url: 'https://www.youtube.com/watch?v=N6rMGKBRFDA',
           durationMins: 75,
           xpReward: 100,
           justification: 'Base skill needed for marketing agencies and web publishers.'
@@ -742,9 +742,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'SEO Content Writing Tutorial',
+          title: 'SEO Fundamentals — Coursera / UC Davis',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/seo-writing',
+          url: 'https://www.coursera.org/learn/search-engine-optimization',
           durationMins: 90,
           xpReward: 90,
           justification: 'Ensures that articles rank well on search engines.'
@@ -764,9 +764,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'UX Writing: Microcopy Essentials',
+          title: 'UX Writing: How to Write for Design — Google (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/ux-writing',
+          url: 'https://www.coursera.org/learn/ux-writing-google',
           durationMins: 90,
           xpReward: 95,
           justification: 'Highly valued specialization in product design groups.'
@@ -784,9 +784,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Figma for Writers & Content Designers',
+          title: 'Figma for Non-Designers — The Complete Guide',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=FIGMA_WRITING',
+          url: 'https://www.youtube.com/watch?v=4W4LvJnNegA',
           durationMins: 45,
           xpReward: 80,
           justification: 'Critical collaboration skill between writers and designers.'
@@ -806,9 +806,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Journalism and News Writing Principles',
-          type: 'coursera',
-          url: 'https://www.coursera.org/learn/journalism-writing',
+          title: 'Journalism for Social Change — Berkeley (edX)',
+          type: 'edx',
+          url: 'https://www.edx.org/learn/journalism/university-of-california-berkeley-journalism-for-social-change',
           durationMins: 110,
           xpReward: 100,
           justification: 'Baseline requirement for journalism associates.'
@@ -826,9 +826,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Editing and Proofreading Skills',
+          title: 'Editing and Proofreading Tips — Grammarly & ProWritingAid',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=EDITING_SKILLS',
+          url: 'https://www.youtube.com/watch?v=0V7rRfOaDno',
           durationMins: 55,
           xpReward: 85,
           justification: 'Key skill for editorial positions.'
@@ -849,9 +849,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Introduction to Research Methods',
+          title: 'Research Methods — University of London (Coursera)',
           type: 'coursera',
-          url: 'https://www.coursera.org/learn/research-methods',
+          url: 'https://www.coursera.org/learn/research-methods-university-of-london',
           durationMins: 150,
           xpReward: 120,
           justification: 'Baseline academic and policy research skill.'
@@ -869,9 +869,9 @@ const ROLE_TEMPLATES = {
       ],
       resources: [
         {
-          title: 'Public Policy Analysis',
+          title: 'Introduction to Public Policy — MIT OpenCourseWare',
           type: 'youtube',
-          url: 'https://www.youtube.com/watch?v=POLICY_ANALYSIS',
+          url: 'https://www.youtube.com/watch?v=EFPQ21NQxOI',
           durationMins: 60,
           xpReward: 90,
           justification: 'Required by think-tanks and NGOs.'
@@ -894,12 +894,12 @@ const DEFAULT_TEMPLATE = [
     ],
     resources: [
       {
-        title: 'Introduction to Programming Principles',
-        type: 'youtube',
-        url: 'https://www.youtube.com/watch?v=PROG_INTRO',
-        durationMins: 45,
-        xpReward: 100,
-        justification: 'Baseline skill for all technology paths.'
+          title: 'CS50: Introduction to Computer Science — Harvard (edX)',
+          type: 'edx',
+          url: 'https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science',
+          durationMins: 45,
+          xpReward: 100,
+          justification: 'Baseline skill for all technology paths.'
       }
     ]
   }
@@ -1024,9 +1024,12 @@ async function ensureActiveStep(roadmapId) {
 }
 
 /**
- * Complete a resource in the roadmap
+ * Complete a resource in the roadmap.
+ * Awards XP and writes the completed course to the student's Skill Passport.
  */
 async function completeResource(studentId, resourceId) {
+  const crypto = require('crypto');
+
   const resource = await prisma.roadmapResource.findUnique({
     where: { id: resourceId },
     include: { step: { include: { roadmap: true } } }
@@ -1056,6 +1059,42 @@ async function completeResource(studentId, resourceId) {
     resourceId
   );
 
+  // Write completed course to Skill Passport (upsert is idempotent)
+  let passportCourse = null;
+  try {
+    const passport = await prisma.skillPassport.upsert({
+      where: { studentId },
+      create: {
+        studentId,
+        isPublic: false,
+        shareToken: crypto.randomBytes(16).toString('hex')
+      },
+      update: {} // passport already exists — no changes needed
+    });
+
+    passportCourse = await prisma.passportCourse.upsert({
+      where: {
+        passportId_resourceId: {
+          passportId: passport.id,
+          resourceId
+        }
+      },
+      create: {
+        passportId: passport.id,
+        resourceId,
+        title: resource.title,
+        type: resource.type,
+        url: resource.url,
+        skillName: resource.step.skillName,
+        completedAt: new Date()
+      },
+      update: {} // already recorded — keep original completedAt
+    });
+  } catch (err) {
+    // Non-fatal: XP and completion are already saved; log and continue
+    console.error('[completeResource] Failed to write PassportCourse:', err.message);
+  }
+
   // Check if all resources in this step are completed
   const allResources = await prisma.roadmapResource.findMany({
     where: { stepId: resource.stepId }
@@ -1071,7 +1110,7 @@ async function completeResource(studentId, resourceId) {
     await ensureActiveStep(resource.step.roadmap.id);
   }
 
-  return { alreadyCompleted: false, resource: updatedResource, xpResult };
+  return { alreadyCompleted: false, resource: updatedResource, xpResult, passportCourse };
 }
 
 /**

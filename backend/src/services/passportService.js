@@ -3,8 +3,8 @@ const crypto = require('crypto');
 
 /**
  * Get student's Skill Passport.
- * Calculates verified skills (both quiz passed and peer reviewed approved)
- * and in-progress skills.
+ * Calculates verified skills (both quiz passed and peer reviewed approved),
+ * in-progress skills, and completed courses from finished roadmap resources.
  */
 async function getPassport(studentId) {
   const student = await prisma.student.findUnique({
@@ -12,9 +12,14 @@ async function getPassport(studentId) {
   });
   if (!student) throw new Error('Student not found');
 
-  // Find passport settings (public link, token)
+  // Find or auto-create passport settings (public link, token)
   let passport = await prisma.skillPassport.findUnique({
-    where: { studentId }
+    where: { studentId },
+    include: {
+      courses: {
+        orderBy: { completedAt: 'desc' }
+      }
+    }
   });
   if (!passport) {
     passport = await prisma.skillPassport.create({
@@ -22,11 +27,12 @@ async function getPassport(studentId) {
         studentId,
         isPublic: false,
         shareToken: crypto.randomBytes(16).toString('hex')
-      }
+      },
+      include: { courses: true }
     });
   }
 
-  // Calculate quiz-passed skills
+  // Calculate quiz-passed skills (with null-safety on deep relations)
   const passedAttempts = await prisma.quizAttempt.findMany({
     where: { studentId, passed: true },
     include: {
@@ -39,7 +45,11 @@ async function getPassport(studentId) {
       }
     }
   });
-  const quizPassedSkills = new Set(passedAttempts.map(a => a.quiz.resource.step.skillName));
+  const quizPassedSkills = new Set(
+    passedAttempts
+      .filter(a => a.quiz?.resource?.step?.skillName)
+      .map(a => a.quiz.resource.step.skillName)
+  );
 
   // Calculate peer-approved skills
   const verifications = await prisma.skillVerification.findMany({
@@ -59,7 +69,6 @@ async function getPassport(studentId) {
   roadmapSteps.forEach(step => {
     const isQuizPassed = quizPassedSkills.has(step.skillName);
     const isPeerApproved = peerApprovedSkills.has(step.skillName);
-
     const isVerified = isQuizPassed && isPeerApproved;
 
     const skillData = {
@@ -79,6 +88,16 @@ async function getPassport(studentId) {
     }
   });
 
+  // Build completed courses list from passport_courses table
+  const completedCourses = passport.courses.map(c => ({
+    id: c.id,
+    title: c.title,
+    type: c.type,
+    url: c.url,
+    skillName: c.skillName,
+    completedAt: c.completedAt
+  }));
+
   return {
     student: {
       name: student.name,
@@ -86,9 +105,15 @@ async function getPassport(studentId) {
       level: student.level,
       currentXP: student.currentXP
     },
-    passport,
+    passport: {
+      id: passport.id,
+      isPublic: passport.isPublic,
+      shareToken: passport.shareToken,
+      createdAt: passport.createdAt
+    },
     verifiedSkills,
-    inProgressSkills
+    inProgressSkills,
+    completedCourses
   };
 }
 

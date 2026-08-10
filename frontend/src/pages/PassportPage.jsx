@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
 import { api, getStudentId } from '../lib/api';
 import { useAuth } from '../hooks/useAuth';
-import { ShieldAlert, CheckCircle, Globe, Share2, Printer, Loader2 } from 'lucide-react';
+import { ShieldAlert, CheckCircle, Globe, Share2, Printer, Loader2, BookOpen, ExternalLink } from 'lucide-react';
 
 export default function PassportPage() {
   const { user, handleLogout } = useAuth();
@@ -185,10 +185,69 @@ export default function PassportPage() {
 
       </div>
 
+      {/* Completed Courses */}
+      {passport.completedCourses && passport.completedCourses.length > 0 && (
+        <div className="mt-8 space-y-4">
+          <h3 className="font-extrabold text-xs text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+            <BookOpen className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Completed Courses &amp; Resources ({passport.completedCourses.length})</span>
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {passport.completedCourses.map(course => {
+              const typeColors = {
+                youtube: 'bg-red-50 text-red-600',
+                coursera: 'bg-blue-50 text-blue-600',
+                edx: 'bg-purple-50 text-purple-700',
+                ibm: 'bg-blue-50 text-blue-800',
+              };
+              const typeLabel = {
+                youtube: 'YouTube',
+                coursera: 'Coursera',
+                edx: 'edX',
+              };
+              const colorClass = typeColors[course.type] || 'bg-slate-50 text-slate-600';
+              const label = typeLabel[course.type] || course.type;
+
+              return (
+                <a
+                  key={course.id}
+                  href={course.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-3 bg-slate-50/60 border border-slate-100 rounded-2xl p-4 hover:border-indigo-200 hover:bg-indigo-50/30 transition-all"
+                >
+                  <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-xs font-bold text-slate-700 leading-snug group-hover:text-indigo-700 transition-colors line-clamp-2">
+                        {course.title}
+                      </p>
+                      <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-indigo-400 flex-shrink-0 mt-0.5 transition-colors" />
+                    </div>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md ${colorClass}`}>
+                        {label}
+                      </span>
+                      <span className="text-[9px] text-slate-400 font-semibold">
+                        {course.skillName}
+                      </span>
+                      <span className="text-[9px] text-slate-300 font-medium ml-auto">
+                        {new Date(course.completedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' })}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Footer watermark */}
       <div className="border-t border-slate-100 mt-8 pt-6 flex justify-between items-center text-[10px] text-slate-400 font-semibold">
         <span>Powered by BridgeUp.lk</span>
-        <span>Cryptographic Verification Key: {passport.passport.id.substring(0, 18)}</span>
+        <span>Verification Key: {passport.passport.id.substring(0, 18)}</span>
       </div>
     </div>
   );

@@ -104,40 +104,44 @@ async function getTodaysTasks(studentId) {
 }
 
 /**
- * Complete a daily task and award XP
+ * Complete a daily task and award XP.
+ *
+ * NOTE: Do NOT wrap this in a prisma.$transaction(). xpService.awardXP() and
+ * streakService.updateStreakOnTaskCompletion() each open their own internal
+ * Prisma transactions. Nesting them inside an outer transaction causes the
+ * inner transactions to silently do nothing (Prisma interactive tx limitation),
+ * meaning XP would never actually be credited. Sequential awaits are correct here.
  */
 async function completeTask(studentId, taskId) {
-  // Use a transaction to ensure atomic updates
-  return await prisma.$transaction(async (tx) => {
-    const task = await tx.dailyTask.findUnique({
-      where: { id: taskId }
-    });
-
-    if (!task) throw new Error(`Task ${taskId} not found`);
-    if (task.studentId !== studentId) throw new Error(`Task does not belong to student`);
-    if (task.status !== "pending") throw new Error(`Task is already completed, skipped, or expired`);
-
-    // 1. Mark task completed
-    const updatedTask = await tx.dailyTask.update({
-      where: { id: taskId },
-      data: {
-        status: "completed",
-        completedAt: new Date()
-      }
-    });
-
-    // 2. Award XP (calls awardXP which writes XPTransaction and updates Student level/XP)
-    const xpResult = await xpService.awardXP(studentId, task.xpValue, "task_completed", taskId);
-
-    // 3. Update Streak count
-    const newStreak = await streakService.updateStreakOnTaskCompletion(studentId);
-
-    return {
-      task: updatedTask,
-      xpResult,
-      newStreak
-    };
+  // 1. Fetch and validate the task
+  const task = await prisma.dailyTask.findUnique({
+    where: { id: taskId }
   });
+
+  if (!task) throw new Error(`Task ${taskId} not found`);
+  if (task.studentId !== studentId) throw new Error(`Task does not belong to student`);
+  if (task.status !== "pending") throw new Error(`Task is already completed, skipped, or expired`);
+
+  // 2. Mark task completed
+  const updatedTask = await prisma.dailyTask.update({
+    where: { id: taskId },
+    data: {
+      status: "completed",
+      completedAt: new Date()
+    }
+  });
+
+  // 3. Award XP — has its own internal transaction, must NOT be nested
+  const xpResult = await xpService.awardXP(studentId, task.xpValue, "task_completed", taskId);
+
+  // 4. Update streak count — also has its own internal transaction
+  const newStreak = await streakService.updateStreakOnTaskCompletion(studentId);
+
+  return {
+    task: updatedTask,
+    xpResult,
+    newStreak
+  };
 }
 
 /**

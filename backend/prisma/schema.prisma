@@ -399,15 +399,34 @@ model EmployerSkillRequirement {
 // ── Skill Passport & Sharing ──
 
 model SkillPassport {
-  id             String          @id @default(uuid())
-  studentId      String          @map("student_id") @unique
-  isPublic       Boolean         @default(false) @map("is_public")
-  shareToken     String          @unique @map("share_token")
-  createdAt      DateTime        @default(now()) @map("created_at")
+  id             String           @id @default(uuid())
+  studentId      String           @map("student_id") @unique
+  isPublic       Boolean          @default(false) @map("is_public")
+  shareToken     String           @unique @map("share_token")
+  createdAt      DateTime         @default(now()) @map("created_at")
 
-  student        Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student        Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  courses        PassportCourse[]
 
   @@map("skill_passports")
+}
+
+// Tracks individual completed courses/videos per student on their Skill Passport.
+// A row is upserted every time a RoadmapResource is marked completed.
+model PassportCourse {
+  id          String        @id @default(uuid())
+  passportId  String        @map("passport_id")
+  resourceId  String        @map("resource_id")
+  title       String
+  type        String        // "youtube", "coursera", "edx", etc.
+  url         String
+  skillName   String        @map("skill_name")
+  completedAt DateTime      @map("completed_at")
+
+  passport    SkillPassport @relation(fields: [passportId], references: [id], onDelete: Cascade)
+
+  @@unique([passportId, resourceId])
+  @@map("passport_courses")
 }
 
 // ── Notifications ──
