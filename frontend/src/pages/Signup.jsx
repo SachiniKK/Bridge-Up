@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { saveAuthSession } from '../lib/api';
+import { api, saveAuthSession } from '../lib/api';
 import SignupSidebar from '../components/common/SignupSidebar';
 import YourBasics from '../components/steps/YourBasics';
 import AcademicInfo from '../components/steps/AcademicInfo';
@@ -40,16 +40,7 @@ export default function Signup() {
   const handleRegisterSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
-      }
+      const data = await api.register(formData);
 
       setRegisteredUser(data.user);
       setAuthToken(data.token);
@@ -65,6 +56,11 @@ export default function Signup() {
   const handleStartLearning = () => {
     saveAuthSession({ user: registeredUser, token: authToken, studentId });
     navigate('/roadmap-builder');
+  };
+
+  const handleGoToDashboard = () => {
+    saveAuthSession({ user: registeredUser, token: authToken, studentId });
+    navigate('/dashboard');
   };
 
   const steps = [
@@ -231,12 +227,20 @@ export default function Signup() {
                   </div>
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <button
                     onClick={handleStartLearning}
-                    className="w-full py-3.5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold text-sm shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer"
+                    className="flex-1 w-full py-3.5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold text-sm shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    Start Learning
+                    <span>Build My Roadmap 🚀</span>
+                  </button>
+
+                  <button
+                    onClick={handleGoToDashboard}
+                    className="flex-1 w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-sm transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center space-x-1"
+                  >
+                    <span>Skip to Dashboard</span>
+                    <span>→</span>
                   </button>
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { api } from '../../lib/api';
 import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function Login({ onSignUpClick, onLoginSuccess }) {
@@ -36,19 +37,7 @@ export default function Login({ onSignUpClick, onLoginSuccess }) {
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Authentication failed.');
-      }
-
+      const data = await api.login(email, password);
       onLoginSuccess({ user: data.user, token: data.token, studentId: data.studentId });
     } catch (err) {
       setServerError(err.message || 'Something went wrong.');

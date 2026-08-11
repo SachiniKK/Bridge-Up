@@ -3,8 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Home, Map, Users, Calendar, TrendingUp, Award, Settings, Star, Trophy
 } from 'lucide-react';
+import { useXP } from '../../hooks/useXP';
 
 export default function DashboardSidebar({ user, currentPath, onNavigate }) {
+  const { xpData } = useXP();
   const navigate = useNavigate();
   const location = useLocation();
   const activePath = currentPath || location.pathname;
@@ -105,7 +107,7 @@ export default function DashboardSidebar({ user, currentPath, onNavigate }) {
           </h4>
           <span className="text-[10px] font-bold text-emerald-600 flex items-center space-x-1 mt-0.5">
             <Star className="w-3 h-3 text-emerald-500 fill-emerald-500" />
-            <span id="sidebar-xp">— XP</span>
+            <span id="sidebar-xp">{xpData.currentXP.toLocaleString()} XP (Lvl {xpData.level})</span>
           </span>
         </div>
       </div>

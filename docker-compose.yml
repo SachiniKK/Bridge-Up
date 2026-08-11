@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   postgres:
     image: postgres:16
@@ -41,9 +39,6 @@ services:
       - "5173:5173"
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
 
   nlp-service:
     build: ./nlp-service

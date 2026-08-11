@@ -12,6 +12,17 @@ async function generateTasksForDate(studentId, dateUTC) {
 
   if (!student) throw new Error(`Student ${studentId} not found`);
 
+  // Check if student has a learning roadmap
+  const roadmap = await prisma.learningRoadmap.findUnique({
+    where: { studentId },
+    include: { steps: true }
+  });
+
+  // Do NOT generate daily tasks if user hasn't created a learning roadmap yet
+  if (!roadmap || !roadmap.steps || roadmap.steps.length === 0) {
+    return [];
+  }
+
   // Check if tasks already exist for this date
   const existing = await prisma.dailyTask.findMany({
     where: {
@@ -24,19 +35,11 @@ async function generateTasksForDate(studentId, dateUTC) {
     return existing;
   }
 
+  // Use skills directly from student's active roadmap steps
+  const skillTags = roadmap.steps.map(s => s.skillName);
+
   // Determine size: weeklyHours / 7
-  const count = Math.max(1, Math.round(student.weeklyHours / 7));
-
-  // Query extracted_skills using parameterized raw SQL template syntax
-  let skills = [];
-  try {
-    skills = await prisma.$queryRaw`SELECT DISTINCT skill FROM extracted_skills LIMIT 20`;
-  } catch (err) {
-    console.error("Error fetching extracted skills via raw query:", err);
-  }
-
-  const defaultSkills = ["React", "Node.js", "Prisma", "PostgreSQL", "CSS", "Tailwind CSS"];
-  const skillTags = skills.length > 0 ? skills.map(s => s.skill) : defaultSkills;
+  const count = Math.max(1, Math.round((student.weeklyHours || 7) / 7));
 
   const tasksData = [];
   for (let i = 0; i < count; i++) {
@@ -49,7 +52,7 @@ async function generateTasksForDate(studentId, dateUTC) {
       },
       {
         title: `Review core concepts of ${skillTag}`,
-        description: `Read documentation or watch a 15-minute tutorial video highlighting advanced use cases of ${skillTag}.`
+        description: `Read documentation or watch a tutorial video highlighting key use cases of ${skillTag}.`
       },
       {
         title: `Debug and optimize ${skillTag} code`,
@@ -88,6 +91,16 @@ async function generateTasksForDate(studentId, dateUTC) {
 async function getTodaysTasks(studentId) {
   const now = new Date();
   const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
+
+  // Check if student has a learning roadmap
+  const roadmap = await prisma.learningRoadmap.findUnique({
+    where: { studentId }
+  });
+
+  // Do NOT suggest tasks until the user creates a learning path roadmap
+  if (!roadmap) {
+    return [];
+  }
 
   let tasks = await prisma.dailyTask.findMany({
     where: {

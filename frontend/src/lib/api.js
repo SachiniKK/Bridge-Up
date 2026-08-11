@@ -24,6 +24,18 @@ async function request(url, options = {}) {
 export const api = {
   // XP
   getXP: (studentId) => request(`/students/${studentId}/xp`),
+  awardXP: (studentId, amount, reason, relatedEntityId) =>
+    request(`/students/${studentId}/xp/award`, {
+      method: 'POST',
+      body: JSON.stringify({ amount, reason, relatedEntityId })
+    }),
+
+  // Daily Tasks
+  getTodaysTasks: (studentId) => request(`/students/${studentId}/tasks/today`),
+  completeTask: (studentId, taskId) =>
+    request(`/students/${studentId}/tasks/${taskId}/complete`, { method: 'POST' }),
+  skipTask: (studentId, taskId) =>
+    request(`/students/${studentId}/tasks/${taskId}/skip`, { method: 'POST' }),
 
   // Communities
   listCommunities: (studentId) => request(`/students/${studentId}/communities`),
@@ -72,6 +84,10 @@ export const api = {
     request('/students/events', { method: 'POST', body: JSON.stringify(data) }),
 
   // Admin & Authentication Additions
+  login: (email, password) =>
+    request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  register: (formData) =>
+    request('/auth/register', { method: 'POST', body: JSON.stringify(formData) }),
   adminLogin: (email, password) =>
     request('/auth/admin/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
   updateProfile: (studentId, data) =>

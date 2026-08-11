@@ -17,4 +17,4 @@ RUN node node_modules/.bin/prisma generate
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "sleep 3 && node node_modules/.bin/prisma migrate deploy && npm run dev"]
+CMD ["sh", "-c", "sleep 3 && node node_modules/.bin/prisma db push && npm run dev"]

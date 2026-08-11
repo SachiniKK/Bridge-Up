@@ -1,12 +1,34 @@
 import React from 'react';
-import { CheckCircle, Circle, ArrowRight } from 'lucide-react';
+import { CheckCircle, Circle, ArrowRight, CheckSquare } from 'lucide-react';
 
 export default function TodaysTasksCard({ tasks, onCompleteTask, onSkipTask }) {
   if (!tasks || tasks.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 text-center">
-        <h3 className="text-lg font-semibold text-slate-950 mb-2">No tasks today</h3>
-        <p className="text-slate-500 text-sm">Start a course or learning pathway to generate tasks.</p>
+      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-3.5">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 rounded-xl bg-amber-500 text-white">
+            <CheckSquare className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-500 block">
+              Today's Daily Tasks
+            </span>
+            <h3 className="font-extrabold text-slate-700 text-sm">
+              Personalized Learning Tasks
+            </h3>
+          </div>
+        </div>
+        <div className="p-6 bg-slate-50/70 rounded-2xl border border-slate-100 text-center flex flex-col items-center gap-2">
+          <p className="text-xs font-semibold text-slate-500 leading-relaxed max-w-md">
+            No tasks available yet. Create your personalized learning path roadmap to unlock tailored daily tasks!
+          </p>
+          <a
+            href="/roadmap-builder"
+            className="mt-1 px-4 py-2 bg-primary hover:bg-primary-dark text-white text-xs font-bold rounded-xl transition-all shadow-sm"
+          >
+            Create Learning Path Roadmap →
+          </a>
+        </div>
       </div>
     );
   }

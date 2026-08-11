@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
 import { api, getStudentId } from '../lib/api';
 import { useAuth } from '../hooks/useAuth';
+import { notifyXPUpdated } from '../hooks/useXP';
 import { Users, Globe, UserPlus, UserMinus, Loader2 } from 'lucide-react';
 
 export default function CommunitiesPage() {
@@ -38,6 +39,7 @@ export default function CommunitiesPage() {
         setMessage('You are already a member of this community.');
       } else if (result.xpAwarded) {
         setMessage(`Joined! +${10} XP awarded.`);
+        notifyXPUpdated();
       } else {
         setMessage('Joined community successfully!');
       }

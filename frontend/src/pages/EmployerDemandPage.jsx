@@ -27,9 +27,8 @@ export default function EmployerDemandPage() {
       const trendData = await api.getSkillTrends(studentId);
       setTrends(trendData);
 
-      // Fetch active job postings (nlp-extracted + manual employer signals)
-      // Since backend doesn't serve all NLP jobs if unpopulated, we merge seeded values
-      const response = await fetch(`http://localhost:5000/api/students/${studentId}/events`); // Wait, we can fetch all events or mock postings directly
+      // Fetch active job postings
+      const eventsData = await api.listEvents(studentId).catch(() => []);
       
       const staticPostings = [
         {

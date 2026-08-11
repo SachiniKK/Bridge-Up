@@ -40,6 +40,31 @@ router.get('/:studentId/xp', requireAuth, async (req, res) => {
 });
 
 /**
+ * POST /api/students/:studentId/xp/award
+ * Award XP to a student for completing tasks or learning activities
+ */
+router.post('/:studentId/xp/award', requireAuth, async (req, res) => {
+  try {
+    const { amount, reason, relatedEntityId } = req.body;
+    const numAmount = parseInt(amount, 10);
+    if (!numAmount || numAmount <= 0) {
+      return res.status(400).json({ error: 'Valid positive XP amount is required' });
+    }
+    const result = await xpService.awardXP(
+      req.params.studentId,
+      numAmount,
+      reason || 'task_completed',
+      null,
+      relatedEntityId || null
+    );
+    res.json(result);
+  } catch (error) {
+    console.error('Error in POST /xp/award:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
  * GET /api/students/:studentId/xp/history
  * Fetch paginated XP transactions history for a student
  */

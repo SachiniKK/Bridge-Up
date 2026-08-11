@@ -40,7 +40,7 @@ async function requireAuth(req, res, next) {
 
     const paramStudentId = req.params.studentId;
     if (paramStudentId && req.user.id && paramStudentId !== req.user.id) {
-      return res.status(403).json({ error: 'Access denied. Student ID mismatch.' });
+      req.params.studentId = req.user.id;
     }
 
     next();

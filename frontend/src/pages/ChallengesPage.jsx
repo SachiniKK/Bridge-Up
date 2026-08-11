@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppLayout from '../components/layout/AppLayout';
 import { api, getStudentId } from '../lib/api';
 import { useAuth } from '../hooks/useAuth';
+import { notifyXPUpdated } from '../hooks/useXP';
 import { Trophy, Clock, Loader2, Send, CheckCircle2 } from 'lucide-react';
 
 export default function ChallengesPage() {
@@ -47,6 +48,7 @@ export default function ChallengesPage() {
         setMessage('You have already submitted for this challenge.');
       } else if (result.xpAwarded) {
         setMessage(`Submission accepted! +${challenge.xpReward} XP awarded.`);
+        notifyXPUpdated();
       } else {
         setMessage('Submission recorded.');
       }
