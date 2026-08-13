@@ -1,0 +1,23 @@
+[
+  {
+    "source_url": "manual-seed-0001",
+    "title": "Software Engineer - Frontend",
+    "company": "Example Tech Pvt Ltd",
+    "raw_text": "Looking for a Frontend Engineer with experience in React.js, JavaScript, and Tailwind CSS. Familiarity with REST APIs is a plus.",
+    "source_site": "manual_seed"
+  },
+  {
+    "source_url": "manual-seed-0002",
+    "title": "Data Analyst",
+    "company": "Example Bank PLC",
+    "raw_text": "Seeking a Data Analyst skilled in SQL, Excel, and Python for reporting and analytics tasks.",
+    "source_site": "manual_seed"
+  },
+  {
+    "source_url": "manual-seed-0003",
+    "title": "DevOps Engineer",
+    "company": "Example Cloud Solutions",
+    "raw_text": "Hiring a DevOps Engineer with knowledge of Docker, CI/CD pipelines, AWS, and Kubernetes.",
+    "source_site": "manual_seed"
+  }
+]

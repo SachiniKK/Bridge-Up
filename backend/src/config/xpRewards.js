@@ -1,0 +1,5 @@
+module.exports = {
+  COMMUNITY_JOIN: 10,
+  DISCUSSION_CREATE: 15,
+  COMMENT_CREATE: 10,
+};

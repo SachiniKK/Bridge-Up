@@ -1,20 +1,20 @@
-# Use official Node.js LTS image
 FROM node:20-alpine
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy package files first (for better caching)
-COPY package*.json ./
+# Copy package files first for better layer caching
+COPY package.json package-lock.json ./
 
-# Install dependencies inside the container
-RUN npm install
+# Install dependencies inside the container (Linux-native binaries)
+# NODE_TLS_REJECT_UNAUTHORIZED=0 handles corporate SSL inspection proxies
+RUN NODE_TLS_REJECT_UNAUTHORIZED=0 npm ci --legacy-peer-deps
 
-# Copy the rest of the backend code
+# Copy the rest of the source (node_modules excluded via .dockerignore)
 COPY . .
 
-# Expose the port the app runs on
+# Generate Prisma client using the already-installed local binary (no network call)
+RUN node node_modules/.bin/prisma generate
+
 EXPOSE 5000
 
-# Start the server
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "sleep 3 && node node_modules/.bin/prisma db push && npm run dev"]
